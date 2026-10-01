@@ -1,0 +1,83 @@
+[
+  {
+    "split": "test",
+    "zero_ground_truth": {
+      "area": 0,
+      "delay": 0,
+      "total_power": 0
+    },
+    "zero_target_share_of_total_relative_error": 0.0
+  },
+  {
+    "split": "test_deepseek_ref",
+    "zero_ground_truth": {
+      "area": 0,
+      "delay": 0,
+      "total_power": 0
+    },
+    "zero_target_share_of_total_relative_error": 0.0
+  },
+  {
+    "split": "test_ds_verilog_eval",
+    "zero_ground_truth": {
+      "area": 0,
+      "delay": 0,
+      "total_power": 0
+    },
+    "zero_target_share_of_total_relative_error": 0.0
+  },
+  {
+    "split": "test_pluto",
+    "zero_ground_truth": {
+      "area": 0,
+      "delay": 0,
+      "total_power": 0
+    },
+    "zero_target_share_of_total_relative_error": 0.0
+  },
+  {
+    "split": "test_ppa_feedback",
+    "zero_ground_truth": {
+      "area": 0,
+      "delay": 0,
+      "total_power": 0
+    },
+    "zero_target_share_of_total_relative_error": 0.0
+  },
+  {
+    "split": "test_realbench",
+    "zero_ground_truth": {
+      "area": 9,
+      "delay": 9,
+      "total_power": 9
+    },
+    "zero_target_share_of_total_relative_error": 0.9999999999070439
+  },
+  {
+    "split": "test_rtl_opt",
+    "zero_ground_truth": {
+      "area": 0,
+      "delay": 0,
+      "total_power": 0
+    },
+    "zero_target_share_of_total_relative_error": 0.0
+  },
+  {
+    "split": "train",
+    "zero_ground_truth": {
+      "area": 16,
+      "delay": 24,
+      "total_power": 17
+    },
+    "zero_target_share_of_total_relative_error": 0.0
+  },
+  {
+    "split": "valid",
+    "zero_ground_truth": {
+      "area": 336,
+      "delay": 585,
+      "total_power": 396
+    },
+    "zero_target_share_of_total_relative_error": 0.999999975483448
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["title", "idea", "expected_effect", "risk"],
+  "properties": {
+    "title": {"type": "string"},
+    "idea": {"type": "string"},
+    "expected_effect": {"type": "string"},
+    "risk": {"type": "string"}
+  }
+}
+

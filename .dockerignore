@@ -1,0 +1,17 @@
+.git
+.venv*
+__pycache__
+.pytest_cache
+build
+dist
+*.egg-info
+.env*
+bench
+data
+pdk
+models
+checkpoints
+runs
+outputs
+output
+exp

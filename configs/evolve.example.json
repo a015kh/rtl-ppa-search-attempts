@@ -1,0 +1,38 @@
+{
+  "paths": {
+    "benchmark_root": "/path/to/icrtl-benchmark",
+    "verilogeval_benchmark": "/path/to/verilogeval-benchmark",
+    "raw_checkpoint": "/path/to/checkpoint",
+    "yosys_checkpoint": "/path/to/yosys-compatible-checkpoint",
+    "tool_profile": "/path/to/tool-profile.sh",
+    "db_dir": "/path/to/technology-db",
+    "lib_dir": "/path/to/liberty-files",
+    "cell_verilog": "/path/to/cell-model.v",
+    "synthesis_library_dir": "/path/to/synthesis-libraries",
+    "nangate_synopsys_root": "/path/to/synopsys-pdk",
+    "revolution_pdk": "/path/to/pdk-root",
+    "synthesis_flow": "/path/to/synthesis-flow",
+    "synthesis_config": "/path/to/synthesis-config.json",
+    "map_adders": "/path/to/adder-mapping.v",
+    "map_latches": "/path/to/latch-mapping.v",
+    "cvdp_benchmark": "/path/to/cvdp-benchmark",
+    "cvdp_heavy": "/path/to/cvdp-heavy",
+    "cvdp_tools": "/path/to/cvdp-tools"
+  },
+  "tools": {
+    "dc_shell": "dc_shell",
+    "pt_shell": "pt_shell",
+    "yosys": "yosys",
+    "openroad": "openroad"
+  },
+  "tool_selection": [
+    "tool",
+    "1",
+    "4",
+    "6"
+  ],
+  "inference": {
+    "max_input_len": 3072,
+    "num_samples": 16
+  }
+}
