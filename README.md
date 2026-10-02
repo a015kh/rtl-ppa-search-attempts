@@ -8,8 +8,23 @@ The final recorded DC/PT v6.3 model completed ten training epochs. Its standalon
 |---|---:|---:|
 | `test` | 80.45% | 59.38% |
 | `test_realbench` | 31.26% | 14.17% |
+| RTL-OPT local subset (`test_rtl_opt`) | 61.44% | 41.11% |
+| Pluto local subset (`test_pluto`) | 50.93% | 26.39% |
+
+Benchmark origins are [RTL-OPT](https://arxiv.org/abs/2601.01765) and
+[Pluto](https://arxiv.org/abs/2510.14756). These rows use selected local DC/PT
+remeasurements, not complete official benchmark releases or the papers' labels.
+See [benchmark references and selection limits](docs/BENCHMARK_REFERENCES.md)
+and [BibTeX citations](references.bib).
 
 These percentages use successfully decoded examples; failed decodes are listed separately in the [complete nine-set results](docs/V63_RESULTS.md) and [aggregate table](results/v6.3/evaluation-summary.csv). Mean metric accuracy averages area, delay and total power; joint accuracy requires all three to pass. Zero targets dominate some saved mean-relative-error values. The [recorded loss curves](docs/V63_RESULTS.md#recorded-loss-curves) show training loss falling while loss on the capped validation subset rises. These measurements do not isolate the cause of the generalization gap. **No retained evidence establishes v6.3 evaluation inside optimization search**, so standalone accuracy is not a demonstrated search benefit.
+
+[Spearman rho and Kendall tau-b](docs/V63_RESULTS.md#post-hoc-rank-correlations)
+are also reported separately for area, delay and total power on all nine saved
+sets. They are post-hoc pooled correlations from retained predictions, with ties
+and finite zero targets retained. They do not establish within-family optimization
+ranking or search gains. New standalone evaluations emit the same additional
+rank metrics alongside the existing error/accuracy fields.
 
 The population search is derived from [REvolution](https://github.com/kmcho2019/REvolution) and its [paper](https://arxiv.org/abs/2510.21407). The numeric prediction backend and training workflow adapt [Google DeepMind's regress-lm](https://github.com/google-deepmind/regress-lm). The local EvolVE implementation is inspired by the [EvolVE paper](https://arxiv.org/abs/2601.18067). See [third-party notices](THIRD_PARTY_NOTICES.md) for component origins and licenses.
 

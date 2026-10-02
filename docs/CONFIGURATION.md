@@ -28,6 +28,10 @@ Replace the illustrative hash strings with hashes computed from your own files, 
 
 Output locations must be new and separate from datasets/checkpoints. Use a new directory for each experiment. Prediction and evaluation may create detailed local records from your supplied inputs; those output records are not part of this source release.
 
+Standalone evaluation preserves the historical decoding, sampled-median predictions, accuracy and error metrics. It additionally reports `<metric>_spearman_rho`, `<metric>_kendall_tau_b`, `<metric>_rank_n_pairs`, `<metric>_rank_excluded_nonfinite` and `<metric>_rank_status`. Rank statistics use paired finite decoded values, retain zero targets, use average ranks for Spearman and tie-adjusted Kendall tau-b. Constant inputs or fewer than two usable pairs yield JSON `null` coefficients with a reason in the status field. No significance tests are reported. These statistics are pooled within the selected split and metric; they are not within-family ranking scores.
+
+For saved predictions, `scripts/summarize_rank_correlations.py` accepts CSV columns `gt_area`, `pred_area`, `gt_delay`, `pred_delay`, `gt_total_power` and `pred_total_power`. Each row must represent an already decoded prediction, as in the maintained evaluator's CSV output. Additional identifiers are ignored and never exported. Supply `--decode-fail split=count` if a separate summary records failures; omission means unknown, not zero. Output contains aggregate statistics only. See [recorded results and commands](V63_RESULTS.md#post-hoc-rank-correlations).
+
 ## Search benchmark and verification inputs
 
 Population search requires an external benchmark root containing selected suites and each task's specifications, reference RTL when used, verification inputs and any manifest/sidecar files required by the chosen evaluator. EvolVE adapters require the corresponding external IC-RTL, VerilogEval or CVDP layout. Synthetic fixtures in this repository test interfaces and do not provide those benchmark suites.

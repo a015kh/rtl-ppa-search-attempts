@@ -37,6 +37,16 @@ The exact original invocation/revision for each retained test shard was not
 recorded. Its release does not establish full historical benchmark reproduction;
 see [test preparation](docs/TEST_DATASET_PREPARATION.md).
 
+## Evaluation benchmark citations
+
+The selected locally remeasured RTL-OPT/Pluto evaluation inputs originate from
+[RTL-OPT](https://github.com/hkust-zhiyao/RTL-OPT), by Yao Lu, Shang Liu, Hangan Zhou,
+Wenji Fang, Qijun Zhang and Zhiyao Xie, and [Pluto](https://github.com/scale-lab/Pluto),
+by Manar Abdelatty, Maryam Nouh, Jacob K. Rosenstein and Sherief Reda. Their
+[paper references and subset limits](docs/BENCHMARK_REFERENCES.md) and
+[BibTeX](references.bib) are included. No benchmark payload or paper's PPA labels
+are redistributed; their terms remain separate from this source release.
+
 ## Installed dependencies
 
 Other packages are dependencies installed separately and retain their own licenses. They are not vendored by this release. The optional Number Token Loss package is pinned to `ntloss==0.3.1` as recovered from the observed environment. Pretrained-model access and license terms remain separate from this code license.

@@ -77,6 +77,14 @@ Source recovery was not uniformly an exact-RTL match. The recorded construction 
 
 The seven evaluation splits total **74,988 rows**; all eleven retained splits total **594,231 rows**. Evaluation records carry `local/test...` source labels. Their original upstream provenance is not established by those labels, so the source mixture above excludes evaluation splits. Split names alone do not establish independence from training or from each other.
 
+Separately inspected generator references and measured selections identify
+`test_rtl_opt` and `test_pluto` with [RTL-OPT and Pluto](BENCHMARK_REFERENCES.md).
+They are selected local DC/PT remeasurements: 48 RTL variants at six targets for
+RTL-OPT, and four designs with three variants at six targets for Pluto. This
+additional benchmark attribution does not change the saved `local/test...`
+metadata, recover missing upstream revision pins or establish complete benchmark
+coverage, record-level licensing or independence.
+
 Retained training and validation lineage metadata contains **42,602 training lineages and 4,732 validation lineages**, with **zero overlap**, totaling 47,334. This confirms the saved lineage assignment; it does not establish every possible RTL similarity or benchmark leakage condition.
 
 Complete split sizes differ from the historical prediction evaluation denominators. The saved training evaluation used only 1,024 examples; validation prediction evaluation covered `valid`, not `valid_aug`. Failed decodes are also excluded from the historical accuracy denominator. See [v6.3 evaluation results](V63_RESULTS.md) for the corresponding metrics and zero-target caveats.

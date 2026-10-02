@@ -68,11 +68,82 @@ The `train` prediction evaluation is limited to **1,024 examples**, so its accur
 
 The historical relative-error formula is `abs(prediction - target) / (abs(target) + 1e-10)`. Threshold tests use a strict `<`. Zero targets can dominate the mean: the saved validation results include 336 zero area labels, 585 zero delay labels and 396 zero total-power labels among decoded examples; RealBench has 9 zero labels for each metric. Their recorded mean relative errors (approximately 6.03e7 and 4.80e9) are not typical percentage errors. The available evidence does not establish whether the zero labels are valid cases or data-quality problems. They were not relabeled for this release.
 
+The RTL-OPT and Pluto rows use selected local DC/PT remeasurements. Cite
+Yao Lu et al., [*A New Benchmark for the Appropriate Evaluation of RTL Code Optimization*](https://arxiv.org/abs/2601.01765),
+2026, and Manar Abdelatty et al., [*Pluto: A Benchmark for Evaluating Efficiency of LLM-generated Hardware Code*](https://arxiv.org/abs/2510.14756),
+2025 arXiv version. The [benchmark reference guide](BENCHMARK_REFERENCES.md)
+documents the local subsets, later Pluto venue and missing upstream revision pins.
+They are not the papers' own prediction results or PPA label sets.
+
+## Post-hoc rank correlations
+
+These coefficients were computed during release preparation from the **saved
+standalone prediction CSVs**, not recovered as originally logged training
+metrics. No new inference was performed. Ground truth and predictions retain the
+saved formatter/CSV precision; unrounded dataset targets are not substituted.
+
+| Split | Finite pairs per metric | Area rho | Area tau-b | Delay rho | Delay tau-b | Total power rho | Total power tau-b |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| `train` | 1,024 | 0.9999 | 0.9977 | 0.9939 | 0.9887 | 0.9999 | 0.9966 |
+| `valid` | 27,143 | 0.9847 | 0.9246 | 0.9260 | 0.8407 | 0.9812 | 0.9164 |
+| `test` | 810 | 0.9818 | 0.9092 | 0.8998 | 0.7900 | 0.9864 | 0.9130 |
+| `test_deepseek_ref` | 13,172 | 0.9414 | 0.8411 | 0.9448 | 0.8337 | 0.9659 | 0.8748 |
+| `test_ds_verilog_eval` | 45,911 | 0.9740 | 0.8995 | 0.9007 | 0.7893 | 0.9789 | 0.9019 |
+| Pluto subset (`test_pluto`) | 72 | 0.8858 | 0.7086 | 0.9382 | 0.7948 | 0.9878 | 0.9098 |
+| `test_ppa_feedback` | 14,206 | 0.9502 | 0.8397 | 0.9161 | 0.7806 | 0.9667 | 0.8694 |
+| `test_realbench` | 515 | 0.6139 | 0.4597 | 0.6472 | 0.4889 | 0.7300 | 0.5669 |
+| RTL-OPT subset (`test_rtl_opt`) | 287 | 0.8142 | 0.6905 | 0.9024 | 0.7774 | 0.9405 | 0.8233 |
+
+![Post-hoc Spearman and Kendall rank correlations](../figures/v6.3-rank-correlations.png)
+
+For each scalar metric, every saved row where both target and prediction are
+finite receives equal weight. All 27 split/metric combinations have zero
+additional nonfinite exclusions. Finite zero targets remain included. Failed
+decodes were already absent from the prediction CSVs; their separate counts are
+the ones reported above. `decode_fail` repeats the split-level count across three
+metric rows in the machine-readable file and must not be summed over metrics.
+
+Spearman rho is Pearson correlation of ranks, with average ranks for exact ties.
+Kendall uses **tau-b**, correcting for ties in either variable. Coefficients are
+undefined for constant variables or fewer than two finite pairs; the maintained
+helper emits `null` and an explicit status in those cases. These conventions match
+the [SciPy Spearman definition](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.spearmanr.html)
+and [Kendall tau-b definition](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kendalltau.html).
+Round-trip numeric parsing is required: default approximate CSV float parsing
+can change exact ties. The public summarizer uses `csv.DictReader` plus `float`.
+
+These are **pooled split correlations**, across different designs, variants and
+clock points. They are not averages of within-family coefficients. All retained
+`family_id` columns are blank, so no within-family candidate-ranking statistics
+are reconstructed. Repeated designs/settings also mean rows are not independent;
+no independence-based significance tests or p-values are reported. A high pooled
+rank correlation can coexist with low absolute prediction accuracy and does not
+demonstrate useful ranking of competing implementations of the same design.
+The `train` coefficients still describe only 1,024 saved examples. No coefficient
+establishes v6.3 search performance.
+
+The maintained evaluator now appends per-metric `_spearman_rho`, `_kendall_tau_b`,
+`_rank_n_pairs`, `_rank_excluded_nonfinite` and `_rank_status` fields. The existing
+decoding, sampled medians, relative errors and accuracy thresholds are preserved.
+You can also summarize compatible saved predictions without loading a model:
+
+```bash
+python scripts/summarize_rank_correlations.py --input test_pluto=/path/to/predictions.csv --decode-fail test_pluto=0 --output /path/to/new-rank-summary
+```
+
+Repeat `--input SPLIT=CSV` and, when known, `--decode-fail SPLIT=COUNT` for other
+splits. Omitted failure counts remain unknown rather than becoming zero. The
+installed alias is `rtl-ppa-rank-summary`. Outputs contain aggregate rows only;
+no design identities, raw predictions or input paths are copied into them. Use
+`scripts/plot_rank_correlations.py --input /path/to/rank-correlation-summary.csv --output /path/to/new-figures`
+to plot a compatible aggregate table.
+
 ## Public result files
 
 - [Training settings](../results/v6.3/training-settings.json)
 - [Training history CSV](../results/v6.3/training-history.csv) and [JSON](../results/v6.3/training-history.json)
 - [Evaluation summary CSV](../results/v6.3/evaluation-summary.csv) and [JSON](../results/v6.3/evaluation-summary.json)
+- [Rank correlation CSV](../results/v6.3/rank-correlation-summary.csv) and [JSON](../results/v6.3/rank-correlation-summary.json)
 - [Zero-target aggregate diagnostics](../results/v6.3/zero-target-summary.json)
 
 The full original trainer-state file and all per-design evaluation records are excluded. The code release supports experiments with user-supplied compatible artifacts; it does not provide an independent public-data reproduction of these historical measurements.

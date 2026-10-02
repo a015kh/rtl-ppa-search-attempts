@@ -11,13 +11,14 @@ Use the canonical entrypoints below from a source checkout. Every artifact-produ
 | Assemble a training/evaluation dataset | `python scripts/generate_dataset.py preflight`, `build`, `verify`, each with `--config` | Measured base/external/augmentation/test inputs, provenance inputs and local catalog | Training/validation/test JSONL shards, lineage/source metadata, manifest and verification summary |
 | Train the maintained PPA model | `python scripts/ppa.py train` | `--config`, compatible JSONL `--dataset`, local base `--model`, new `--output` | Model checkpoints, training history and configured training/evaluation records |
 | Evaluate a compatible PPA checkpoint | `python scripts/ppa.py evaluate` | `--config`, `--dataset`, exact `--model`, new `--output`, explicit `--split` | Prediction/ground-truth CSV, metric summary and evaluation configuration |
+| Summarize saved prediction ranking | `python scripts/summarize_rank_correlations.py` | One or more explicit `--input split=/path/to/predictions.csv`; new `--output`; optional recorded `--decode-fail split=count` | Aggregate-only per-metric Spearman rho/Kendall tau-b CSV and JSON; no design records |
 | Predict sampled PPA values | `python scripts/ppa.py predict` | Same explicit artifact/configuration locations and `--split`; optional limit/device | Prediction JSON with decoded values and failed-decode records |
 | Run REvolution-derived population search | `python scripts/run_evolution.py` | External benchmark root, generation backend/model, chosen evaluator; synthesis flow/library or compatible estimator as required; explicit save path | Candidate RTL, correctness/PPA feedback, run records and summaries |
 | Run local EvolVE search adapters | `python scripts/run_evolve.py icrtl`, `four-pipeline`, `verilogeval` or `cvdp` | Explicit JSON `--config`, external benchmark/tool/model inputs, adapter arguments after `--`, output directory | Candidate/state records, verification and evaluator measurements, run summaries |
 | Inspect historical learning objectives | `python scripts/run_experiment.py <choice>` | Explicit `--dataset`, `--model`, `--output`; historical options after `--` | The selected experiment's checkpoints, logs and evaluation records |
 | Inspect recorded v6.3 findings | [v6.3 results document](V63_RESULTS.md) and `results/v6.3/` | Bundled aggregate tables/curves | No execution required; historical standalone evidence only |
 
-The installed `rtl-ppa-test-dataset` command mirrors measured test-data preparation and `rtl-ppa-dataset` mirrors dataset assembly. `rtl-ppa-search` mirrors the EvolVE dispatcher, with `revolution-evolve` retained as a compatibility alias. `rtl-ppa-walkthrough` mirrors the offline synthetic walkthrough. The PPA and historical-experiment commands above are source-checkout launchers.
+The installed `rtl-ppa-test-dataset` command mirrors measured test-data preparation and `rtl-ppa-dataset` mirrors dataset assembly. `rtl-ppa-search` mirrors the EvolVE dispatcher, with `revolution-evolve` retained as a compatibility alias. `rtl-ppa-walkthrough` mirrors the offline synthetic walkthrough, and `rtl-ppa-rank-summary` mirrors the saved-prediction rank summary. The PPA and historical-experiment commands above are source-checkout launchers.
 
 ## Inputs and preparation order
 
@@ -30,6 +31,8 @@ Next, [dataset assembly](DATASET_GENERATION.md) consolidates compatible measured
 Finally, point the maintained PPA launcher at your compatible local dataset/model artifacts and an explicit experiment configuration. Training, standalone evaluation and sampled inference share the retained formatting/backend assumptions. [Configuration documentation](CONFIGURATION.md) describes split fields, checkpoint format, optional checksums and external dependencies. A new dataset or model is a new experiment until its provenance and content are checked; these commands do not by themselves reproduce the published v6.3 checkpoint or results.
 
 Search is a separate workflow. Supply an external benchmark, generation model and correctness strategy, then choose a compatible trained estimator or reference synthesis evaluator. Its output is evidence for that run's code/model/tool configuration. Standalone PPA prediction accuracy is not a substitute for measured search performance.
+
+The maintained evaluator also reports per-metric Spearman rho and Kendall tau-b for decoded finite pairs. The rank-summary utility computes the same coefficients from already saved prediction CSVs without inference. Its input contract, tie handling and limits are described in [v6.3 results](V63_RESULTS.md#post-hoc-rank-correlations). Supply failed-decode counts separately when known; CSVs contain decoded examples only. `scripts/plot_rank_correlations.py` plots the resulting aggregate table. Pooled split correlations do not establish within-family candidate ranking or search improvement.
 
 ## Repository layout
 

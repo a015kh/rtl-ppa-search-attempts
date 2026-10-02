@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import torch
 from tqdm.auto import tqdm
+from revolution.rank_metrics import metric_rank_fields
 logger = logging.getLogger(__name__)
 
 @torch.no_grad()
@@ -147,7 +148,8 @@ def evaluate_model(model, dataloader, split_name: str, *, tokenizer, device, met
 
     if total_samples == 0:
         return {"avg_acc_at_10_percent": 0, "avg_relative_mae": 1.0,
-                "decode_fail": total_decode_fail}
+                "decode_fail": total_decode_fail,
+                **metric_rank_fields(metrics, gt_cols, pred_cols)}
 
     arr_all = np.array(all_relative_maes)
     arr_max = np.array(max_relative_maes)
@@ -168,5 +170,6 @@ def evaluate_model(model, dataloader, split_name: str, *, tokenizer, device, met
         result[f"{name}_acc_at_5_percent"]  = round(float(np.mean(arr < 0.05)) * 100, 2)
         result[f"{name}_acc_at_10_percent"] = round(float(np.mean(arr < 0.1))  * 100, 2)
         result[f"{name}_acc_at_20_percent"] = round(float(np.mean(arr < 0.2))  * 100, 2)
+    result.update(metric_rank_fields(metrics, gt_cols, pred_cols))
     return result
 
