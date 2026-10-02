@@ -26,6 +26,10 @@ The local EvolVE implementation is inspired by Wei-Po Hsin, Ren-Hao Deng, Yao-Ti
 
 [MetRex](https://github.com/scale-lab/MetRex) informed historical dataset/constraint formatting. Cite M. Abdelatty, J. Ma and S. Reda, *MetRex: A Benchmark for Verilog Code Metric Reasoning Using LLMs*, ASP-DAC 2025. The upstream README states BSD 3-Clause but its linked license file was absent at the inspected source revision and current branch. The original copied SDC template excerpt is excluded from this release; any released SDC compatibility formatting is an independently authored implementation of standard constraint commands. This reference supplies provenance and does not assert a license grant for excluded code or data.
 
+## Dataset assembly and upstream data
+
+`src/revolution/dataset_generation.py` preserves the recovered local DC/PT dataset-assembly implementation. Its JSONL and report-formatting helpers were extracted from the matching local synthesis code; commercial-flow execution code and library payloads are not included. Source attribution, recorded distribution and reproduction limits are documented in [dataset construction](docs/DATASET_GENERATION.md). Public upstream dataset identifiers and selected revisions describe provenance; the code license does not grant redistribution rights for excluded datasets.
+
 ## Installed dependencies
 
 Other packages are dependencies installed separately and retain their own licenses. They are not vendored by this release. The optional Number Token Loss package is pinned to `ntloss==0.3.1` as recovered from the observed environment. Pretrained-model access and license terms remain separate from this code license.

@@ -13,11 +13,13 @@ dependencies = ["numpy>=2.2,<3", "pandas>=2.3,<3", "scipy>=1.16,<2", "openai>=1.
 [project.optional-dependencies]
 ppa = ["torch==2.9.0", "transformers==5.6.0", "datasets==4.3.0", "peft==0.18.1", "huggingface_hub==1.11.0", "accelerate==1.11.0", "ipdb==0.13.13", "matplotlib==3.10.7", "ordered-set==4.1.0", "safetensors==0.6.2", "scikit-learn==1.7.2", "sentencepiece==0.2.1", "tokenizers==0.22.2", "wandb==0.23.0"]
 experiments = ["ntloss==0.3.1"]
+data = ["datasets==4.3.0"]
 
 dev = ["pytest>=8.4", "pytest-mock>=3.14", "pytest-asyncio>=1.1"]
 
 [project.scripts]
 rtl-ppa-search = "revolution.evolve.__main__:main"
+rtl-ppa-dataset = "revolution.dataset_generation:main"
 revolution-evolve = "revolution.evolve.__main__:main"
 
 [tool.setuptools.packages.find]

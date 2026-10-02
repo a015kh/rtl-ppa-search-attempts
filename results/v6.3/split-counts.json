@@ -1,0 +1,88 @@
+{
+  "dataset_version": "v6.3.0",
+  "label_backend": "Design Compiler / PrimeTime",
+  "count_unit": "labeled RTL/clock rows; not unique modules",
+  "splits": [
+    {
+      "split": "train",
+      "rows": 244349,
+      "role": "training base",
+      "source_attribution": "retained source category metadata"
+    },
+    {
+      "split": "train_aug",
+      "rows": 222972,
+      "role": "training augmentation",
+      "source_attribution": "retained source category metadata"
+    },
+    {
+      "split": "valid",
+      "rows": 27150,
+      "role": "validation base",
+      "source_attribution": "retained source category metadata"
+    },
+    {
+      "split": "valid_aug",
+      "rows": 24772,
+      "role": "validation augmentation",
+      "source_attribution": "retained source category metadata"
+    },
+    {
+      "split": "test",
+      "rows": 810,
+      "role": "evaluation",
+      "source_attribution": "local/test; upstream provenance not established by this label"
+    },
+    {
+      "split": "test_deepseek_ref",
+      "rows": 13173,
+      "role": "evaluation",
+      "source_attribution": "local/test_deepseek_ref; upstream provenance not established by this label"
+    },
+    {
+      "split": "test_ds_verilog_eval",
+      "rows": 45923,
+      "role": "evaluation",
+      "source_attribution": "local/test_ds_verilog_eval; upstream provenance not established by this label"
+    },
+    {
+      "split": "test_pluto",
+      "rows": 72,
+      "role": "evaluation",
+      "source_attribution": "local/test_pluto; upstream provenance not established by this label"
+    },
+    {
+      "split": "test_ppa_feedback",
+      "rows": 14206,
+      "role": "evaluation",
+      "source_attribution": "local/test_ppa_feedback; upstream provenance not established by this label"
+    },
+    {
+      "split": "test_realbench",
+      "rows": 516,
+      "role": "evaluation",
+      "source_attribution": "local/test_realbench; upstream provenance not established by this label"
+    },
+    {
+      "split": "test_rtl_opt",
+      "rows": 288,
+      "role": "evaluation",
+      "source_attribution": "local/test_rtl_opt; upstream provenance not established by this label"
+    }
+  ],
+  "training_validation_rows": 519243,
+  "evaluation_rows": 74988,
+  "all_retained_rows": 594231,
+  "split_lineage_counts": {
+    "training_unique_lineages": 42602,
+    "validation_unique_lineages": 4732,
+    "training_validation_overlap": 0,
+    "combined_unique_lineages": 47334,
+    "manifest_verified": true
+  },
+  "notes": [
+    "These are complete retained split sizes, not evaluation decoded denominators.",
+    "Historical train prediction evaluation used 1024 examples; valid prediction evaluation covered valid, not valid_aug.",
+    "Training and validation lineage overlap was checked on retained metadata and is zero; this does not establish complete benchmark independence."
+  ]
+}

@@ -7,6 +7,7 @@ The population search is derived from [REvolution](https://github.com/kmcho2019/
 ## What is included
 
 - PPA model training, standalone evaluation and sampled inference.
+- Dataset assembly from previously measured PPA inputs, with lineage-aware splitting and [recorded source-distribution tables](docs/DATASET_GENERATION.md).
 - REvolution-derived population search and a local EvolVE implementation with IC-RTL, VerilogEval and CVDP adapters.
 - Historical Number Token Loss, latent-loss, ranking and pairwise-classification attempts, with [an experiment index](docs/EXPERIMENTS.md).
 - [Aggregate DC/PT v6.3 training and evaluation results](docs/V63_RESULTS.md), including loss curves and all nine saved split summaries.
@@ -24,6 +25,18 @@ python -m pip install -e ".[ppa,dev]"
 ```
 
 Choose a PyTorch build compatible with your GPU. Some model families have access or license requirements. No model is downloaded by the example commands. External tools, API access and PDKs are required only for workflows that use them. The Dockerfile is an optional tool-build recipe; it does not provide commercial tools, model artifacts or cell libraries.
+
+## Assemble a dataset
+
+The recovered v6.3 builder combines compatible, already-measured DC/PT inputs; it does not run synthesis or generate RTL. Supply the input files and source catalog described in [dataset generation](docs/DATASET_GENERATION.md), then edit `configs/dataset.example.toml` for your own paths:
+
+```bash
+python scripts/generate_dataset.py preflight --config /path/to/dataset.toml
+python scripts/generate_dataset.py build --config /path/to/dataset.toml
+python scripts/generate_dataset.py verify --config /path/to/dataset.toml
+```
+
+The output must be new and separate from inputs and the repository. Catalog creation from upstream datasets requires explicit `--allow-network` and the optional `.[data]` dependencies. Offline assembly uses only Python's standard library. The installed `rtl-ppa-dataset` command provides the same interface. Historical input datasets and generated records are not included in this release.
 
 ## Train, evaluate and predict
 
@@ -75,7 +88,7 @@ The adapters use a separate process and require an explicit output directory. Th
 Run synthetic and migration checks with the development dependencies:
 
 ```bash
-python -m pytest tests/public_ppa tests/public_config tests/evolve tests/experiments
+python -m pytest tests/public_ppa tests/public_config tests/dataset_generation tests/evolve tests/experiments
 ```
 
 See [validation notes](docs/VALIDATION.md) for the observed release checks and limits. Live training, optimization, commercial synthesis and artifact-specific evaluation require the external dependencies above.

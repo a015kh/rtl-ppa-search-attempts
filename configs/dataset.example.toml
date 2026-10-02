@@ -1,0 +1,82 @@
+# Example for the recovered DC/PT v6.3 assembly workflow.
+# Supply previously measured inputs; this builder does not invoke synthesis.
+# Paths are relative to this configuration file unless absolute.
+# The output must be new and outside input, cache and repository locations.
+# Catalog creation requires explicit --allow-network and the optional [data] extra.
+
+[dataset]
+output_root = "/path/to/new-dataset"
+legacy_final = "/path/to/measured-inputs"
+seed_train = "/path/to/seed-inputs/train.jsonl"
+catalog_cache = "/path/to/catalog-cache/source_catalog.jsonl"
+split_seed = 42
+valid_fraction = 0.10
+split_tolerance = 0.005
+
+[[upstream]]
+name = "scale-lab/MetRex"
+revision = "b9cb51395445da1586e5b0b3ba6f7c91851823c5"
+split = "train"
+rtl_field = "RTL"
+priority = 0
+
+[[upstream]]
+name = "bnadimi/PyraNet-Verilog"
+revision = "87b56d5b3d014eb424200a96bc5f37feb6c8612f"
+split = "train"
+rtl_field = "code"
+priority = 1
+
+[[upstream]]
+name = "97kjmin/VeriLogos_Augmented_Dataset"
+revision = "caf3680677ef176445a7e7f3f86cb3e0c8124b5c"
+split = "train"
+rtl_field = "code"
+priority = 2
+
+[[external]]
+origin = "external_v4"
+final = "/path/to/external_v4/final.jsonl"
+prepared = "/path/to/external_v4/prepared.jsonl"
+selection = "/path/to/external_v4/selection.jsonl"
+
+[[external]]
+origin = "external_v5"
+final = "/path/to/external_v5/final.jsonl"
+prepared = "/path/to/external_v5/prepared.jsonl"
+selection = "/path/to/external_v5/selection.jsonl"
+
+[[augmentation]]
+origin = "gpt_aug_100"
+legacy_shard = "test_aug_100.jsonl"
+model = "gpt-5.4-nano"
+forced_source = "scale-lab/MetRex"
+
+[[augmentation]]
+origin = "gpt_aug_200"
+legacy_shard = "test_aug_200.jsonl"
+model = "gpt-5.4-nano"
+forced_source = "scale-lab/MetRex"
+
+[[augmentation]]
+origin = "gpt_pyra_200"
+legacy_shard = "test_pyra_200.jsonl"
+model = "gpt-5.4-nano"
+forced_source = "bnadimi/PyraNet-Verilog"
+
+[[augmentation]]
+origin = "qwen3_modules"
+legacy_shard = "qwen3_modules_pt_results.jsonl"
+model = "Qwen3-Coder-Next"
+forced_source = ""
+
+[tests]
+shards = [
+  "test.jsonl",
+  "test_deepseek_ref.jsonl",
+  "test_ds_verilog_eval.jsonl",
+  "test_pluto.jsonl",
+  "test_ppa_feedback.jsonl",
+  "test_realbench.jsonl",
+  "test_rtl_opt.jsonl",
+]

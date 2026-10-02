@@ -1,0 +1,89 @@
+{
+  "dataset_version": "v6.3.0",
+  "label_backend": "Design Compiler / PrimeTime",
+  "count_unit": "labeled RTL/clock rows; not unique modules",
+  "scope": "train + train_aug + valid + valid_aug; evaluation splits excluded",
+  "total_rows": 519243,
+  "base_rows": 271499,
+  "augmentation_rows": 247744,
+  "training_rows": 467321,
+  "validation_rows": 51922,
+  "sources": [
+    {
+      "source": "MG-Verilog",
+      "base_rows": 19728,
+      "augmentation_rows": 0,
+      "training_rows": 17970,
+      "validation_rows": 1758,
+      "total_rows": 19728,
+      "percent_of_training_validation": 3.799377170226657,
+      "percent_of_training": 3.8453225941055504,
+      "percent_of_validation": 3.385848002773391
+    },
+    {
+      "source": "MetRex",
+      "base_rows": 133231,
+      "augmentation_rows": 226521,
+      "training_rows": 323620,
+      "validation_rows": 36132,
+      "total_rows": 359752,
+      "percent_of_training_validation": 69.28393834871149,
+      "percent_of_training": 69.25004440202773,
+      "percent_of_validation": 69.58899888293979
+    },
+    {
+      "source": "OpenRTLSet",
+      "base_rows": 52993,
+      "augmentation_rows": 0,
+      "training_rows": 47492,
+      "validation_rows": 5501,
+      "total_rows": 52993,
+      "percent_of_training_validation": 10.205818855526218,
+      "percent_of_training": 10.162607715039556,
+      "percent_of_validation": 10.59473826123801
+    },
+    {
+      "source": "PyraNet-Verilog",
+      "base_rows": 29743,
+      "augmentation_rows": 21223,
+      "training_rows": 45855,
+      "validation_rows": 5111,
+      "total_rows": 50966,
+      "percent_of_training_validation": 9.815442865864345,
+      "percent_of_training": 9.812313163756818,
+      "percent_of_validation": 9.843611571202958
+    },
+    {
+      "source": "RTLCoder",
+      "base_rows": 2760,
+      "augmentation_rows": 0,
+      "training_rows": 2532,
+      "validation_rows": 228,
+      "total_rows": 2760,
+      "percent_of_training_validation": 0.53154303476407,
+      "percent_of_training": 0.5418117311227186,
+      "percent_of_validation": 0.43912021878972307
+    },
+    {
+      "source": "VeriLogos Augmented",
+      "base_rows": 33044,
+      "augmentation_rows": 0,
+      "training_rows": 29852,
+      "validation_rows": 3192,
+      "total_rows": 33044,
+      "percent_of_training_validation": 6.36387972490722,
+      "percent_of_training": 6.387900393947629,
+      "percent_of_validation": 6.147683063056123
+    }
+  ],
+  "recorded_source_attribution_counters": {
+    "declared_seed_source_fallback_rows": 19957,
+    "augmentation_rows_without_base_seed": 10062
+  },
+  "notes": [
+    "Augmented rows inherit seed-source attribution; they are local generated derivatives, not original upstream distribution rows.",
+    "Counts describe retained records at clock constraints, not unique RTL designs or current upstream dataset sizes.",
+    "Public upstream identifiers appear only as source attribution; no private artifact links or payloads are included.",
+    "Declared seed-source fallback was used for some PyraNet augmentation mappings; orphan augmentation was kept and flagged."
+  ]
+}

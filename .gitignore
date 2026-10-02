@@ -68,6 +68,7 @@ data/*_qwen/
 !.env.example
 bench/
 data/
+*.jsonl
 pdk/
 models/
 checkpoints/

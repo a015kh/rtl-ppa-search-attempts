@@ -1,5 +1,7 @@
 # Recorded DC/PT v6.3 training and evaluation
 
+The [dataset construction and source-distribution tables](DATASET_GENERATION.md) document the recorded base/augmentation mixture and all eleven retained split sizes. They describe dataset rows separately from the prediction-evaluation denominators below.
+
 These are recorded standalone results for the Design Compiler / PrimeTime v6.3.0 PPA model. They are published as aggregate evidence. Datasets, design-level predictions and checkpoints are not included. No retained evidence establishes that this v6.3 model was evaluated inside optimization search. The measurements do not demonstrate a search improvement or a controlled improvement over earlier model versions.
 
 ## Training provenance
