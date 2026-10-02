@@ -1,4 +1,5 @@
 import asyncio
+from contextlib import ExitStack
 import datetime
 import json
 import math
@@ -6,9 +7,11 @@ import os
 import random
 import re
 import shutil
+import stat
 import time
 import uuid
 from collections import defaultdict
+from pathlib import Path
 from typing import Any, Iterator, Literal, TypeVar, cast, get_args, overload
 
 # Import from local modules
@@ -371,7 +374,10 @@ class EoHEngine:
 
     def _copy_misc_files(self, output_directory: str) -> None:
         """
-        Copy non-RTL auxiliary files required by some test-benches to *output_directory*.
+        Copy flat, problem-specific non-RTL inputs into a candidate directory.
+
+        Existing regular files are retained. Symlinks, directories, RTL, and
+        reserved benchmark/generated records are never used as auxiliary inputs.
 
         :param output_directory: Directory where the files should be copied.
         :type output_directory: str
@@ -379,7 +385,108 @@ class EoHEngine:
         :return: None
         :rtype: None
         """
-        pass
+        problem = self.problem_name
+        if (
+            not problem
+            or problem in {".", ".."}
+            or any(character in problem for character in ("/", "\\", ":"))
+            or Path(problem).name != problem
+        ):
+            raise ValueError("problem_name must be a single filename component")
+
+        benchmark = Path(self.benchmark_path).resolve(strict=True)
+        output_path = Path(os.path.abspath(output_directory))
+        if any(path.is_symlink() for path in (output_path, *output_path.parents)):
+            raise ValueError("auxiliary output directory must not contain symlinks")
+        output = output_path.resolve(strict=True)
+        base = Path(self.base_save_path).resolve()
+        if not benchmark.is_dir() or not output.is_dir():
+            raise ValueError("benchmark and auxiliary output locations must be directories")
+        if not output.is_relative_to(base):
+            raise ValueError("auxiliary output directory must remain within base_save_path")
+        if output == benchmark or output.is_relative_to(benchmark):
+            raise ValueError("auxiliary output directory must be outside the benchmark inputs")
+
+        reserved_suffixes = (
+            "_makefile", "_ifc.txt", "_ppa.txt", "_prompt.txt", "_ref.sv",
+            "_test.sv", "_compiled.vvp", "_simulation.log", "_ref.syn.v",
+            "_thought.txt", "_feedback.txt",
+        )
+        rtl_or_generated_suffixes = {".v", ".sv", ".vh", ".svh", ".vhd", ".vhdl", ".vvp", ".diff"}
+
+        # POSIX directory descriptors anchor reads/writes to the checked roots.
+        # Platforms without dir_fd still use exclusive destination creation and
+        # verify source identity before copying; they never follow source links.
+        directory_flags = os.O_RDONLY | getattr(os, "O_DIRECTORY", 0) | getattr(os, "O_NOFOLLOW", 0)
+        anchored = os.open in os.supports_dir_fd and os.stat in os.supports_dir_fd
+        with ExitStack() as resources:
+            benchmark_fd = os.open(benchmark, directory_flags) if anchored else None
+            if benchmark_fd is not None:
+                resources.callback(os.close, benchmark_fd)
+            output_fd = os.open(output, directory_flags) if anchored else None
+            if output_fd is not None:
+                resources.callback(os.close, output_fd)
+
+            def file_stat(name: str, directory: Path, descriptor: int | None):
+                if descriptor is not None:
+                    return os.stat(name, dir_fd=descriptor, follow_symlinks=False)
+                return (directory / name).lstat()
+
+            def open_file(name: str, directory: Path, descriptor: int | None, flags: int) -> int:
+                if descriptor is not None:
+                    return os.open(name, flags, 0o600, dir_fd=descriptor)
+                return os.open(directory / name, flags, 0o600)
+
+            if benchmark_fd is not None:
+                names = sorted(os.listdir(benchmark_fd))
+            else:
+                with os.scandir(benchmark) as entries:
+                    names = sorted(entry.name for entry in entries)
+            for name in names:
+                path = Path(name)
+                if not name.startswith((f"{problem}_", f"{problem}.")):
+                    continue
+                if (
+                    name.casefold().endswith(reserved_suffixes)
+                    or path.suffix.casefold() in rtl_or_generated_suffixes
+                ):
+                    continue
+                original = file_stat(name, benchmark, benchmark_fd)
+                if not stat.S_ISREG(original.st_mode):
+                    continue
+                source_flags = os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_BINARY", 0)
+                source_fd = open_file(name, benchmark, benchmark_fd, source_flags)
+                with os.fdopen(source_fd, "rb") as source:
+                    current = os.fstat(source.fileno())
+                    if not stat.S_ISREG(current.st_mode) or (current.st_dev, current.st_ino) != (original.st_dev, original.st_ino):
+                        raise ValueError(f"auxiliary input changed during copying: {name}")
+                    try:
+                        existing = file_stat(name, output, output_fd)
+                    except FileNotFoundError:
+                        existing = None
+                    if existing is not None:
+                        if not stat.S_ISREG(existing.st_mode):
+                            raise ValueError(f"auxiliary destination is a symlink or non-regular file: {name}")
+                        continue
+                    destination_flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_BINARY", 0)
+                    try:
+                        destination_fd = open_file(name, output, output_fd, destination_flags)
+                    except FileExistsError:
+                        existing = file_stat(name, output, output_fd)
+                        if not stat.S_ISREG(existing.st_mode):
+                            raise ValueError(f"auxiliary destination is a symlink or non-regular file: {name}")
+                        continue
+                    try:
+                        with os.fdopen(destination_fd, "wb") as destination:
+                            shutil.copyfileobj(source, destination)
+                            if hasattr(os, "fchmod"):
+                                os.fchmod(destination.fileno(), stat.S_IMODE(current.st_mode))
+                    except BaseException:
+                        if output_fd is not None:
+                            os.unlink(name, dir_fd=output_fd)
+                        else:
+                            (output / name).unlink()
+                        raise
 
     def _get_bypass_responses(
         self, generation, count, prefix="initial"
@@ -434,30 +541,6 @@ class EoHEngine:
                 print(f"Error reading bypass file {sv_file}: {e}")
 
         return results
-        misc_files = [
-            f
-            for f in os.listdir(self.benchmark_path)
-            if os.path.isfile(os.path.join(self.benchmark_path, f))
-            and f.startswith(self.problem_name)
-            and not f.endswith(
-                (
-                    "_makefile",
-                    "_ifc.txt",
-                    "_ppa.txt",
-                    "_prompt.txt",
-                    "_ref.sv",
-                    "_test.sv",
-                    "_compiled.vvp",
-                    "_simulation.log",
-                    "_ref.syn.v",
-                )
-            )
-        ]
-        for file_name in misc_files:
-            source_path = os.path.join(self.benchmark_path, file_name)
-            dest_path = os.path.join(output_directory, file_name)
-            if not os.path.exists(dest_path):
-                shutil.copy(source_path, dest_path)
 
     def _save_result_to_file(
         self,
@@ -495,7 +578,18 @@ class EoHEngine:
             self.problem_name,
             f"Gen{generation_num}",
         )
+        proposed = Path(os.path.abspath(directory_path))
+        if not proposed.resolve().is_relative_to(Path(self.base_save_path).resolve()):
+            raise ValueError("candidate output directory must remain within base_save_path")
+        if any(path.is_symlink() for path in (proposed, *proposed.parents)):
+            raise ValueError("candidate output directory must not contain symlinks")
+        if proposed.resolve().is_relative_to(Path(self.benchmark_path).resolve()):
+            raise ValueError("candidate output directory must be outside the benchmark inputs")
         os.makedirs(directory_path, exist_ok=True)
+
+        # Validate the output boundary and provide simulator inputs before any
+        # candidate records are written into this generation directory.
+        self._copy_misc_files(directory_path)
 
         base_name = f"{self.problem_name}_{strategy}_sample{sample_idx_in_generation}"
         code_file_path = os.path.join(directory_path, f"{base_name}.sv")
@@ -512,7 +606,6 @@ class EoHEngine:
             with open(diff_file_path, "w") as f:
                 f.write(str(diff_content))
 
-        self._copy_misc_files(directory_path)
         return code_file_path, thought_file_path
 
     def _calculate_reference_ppa(self) -> None:

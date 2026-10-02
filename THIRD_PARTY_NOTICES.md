@@ -30,6 +30,13 @@ The local EvolVE implementation is inspired by Wei-Po Hsin, Ren-Hao Deng, Yao-Ti
 
 `src/revolution/dataset_generation.py` preserves the recovered local DC/PT dataset-assembly implementation. Its JSONL and report-formatting helpers were extracted from the matching local synthesis code; commercial-flow execution code and library payloads are not included. Source attribution, recorded distribution and reproduction limits are documented in [dataset construction](docs/DATASET_GENERATION.md). Public upstream dataset identifiers and selected revisions describe provenance; the code license does not grant redistribution rights for excluded datasets.
 
+`src/revolution/test_dataset_preparation.py` preserves selected local historical
+DC/PT report parsing, result conversion and success-filtering policies. It adds
+explicit input locations and aggregate rejection audits without invoking tools.
+The exact original invocation/revision for each retained test shard was not
+recorded. Its release does not establish full historical benchmark reproduction;
+see [test preparation](docs/TEST_DATASET_PREPARATION.md).
+
 ## Installed dependencies
 
 Other packages are dependencies installed separately and retain their own licenses. They are not vendored by this release. The optional Number Token Loss package is pinned to `ntloss==0.3.1` as recovered from the observed environment. Pretrained-model access and license terms remain separate from this code license.

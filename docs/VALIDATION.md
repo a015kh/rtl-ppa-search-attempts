@@ -6,11 +6,38 @@ Preparation verified source privacy, package build/install, launcher help/import
 
 The release was checked in an isolated Linux environment using Python 3.13, CPU PyTorch 2.9.0, the declared PPA dependencies and `ntloss==0.3.1`. Dependency consistency checks passed. Package imports, seven supported entrypoint help checks, all six experimental entrypoint help checks, five installed EvolVE adapter help checks, and synthetic explicit-input dispatch passed from another directory.
 
-The release-focused suite (`tests/public_ppa`, `tests/public_config`, `tests/dataset_generation`, `tests/evolve`, `tests/experiments`) recorded **142 passed, one skipped and 20 passed subtests**. This includes actual Number Token Loss composition, masked-label and gradient checks on small fabricated inputs, evaluator regression checks, optional checksums, explicit locations and missing external dependencies. The skipped check requires an external IC-RTL benchmark payload.
+The current full suite recorded **345 passed, two skipped, zero failed and 23
+passed subtests**. It includes actual Number Token Loss composition, masked-label
+and gradient checks on fabricated inputs, unchanged evaluator behavior, optional
+checksums, explicit locations and missing external dependencies. The skipped
+checks require external IC-RTL benchmark payloads or a commercial synthesis flow
+and benchmark.
 
-The full inherited suite recorded **275 passed, two skipped, one failed and 20 passed subtests**. The sole failure is `tests/revolution/test_algorithm.py::test_copy_misc_files_filters`: the preserved historical `_copy_misc_files` method is unimplemented. Its algorithm behavior was not changed during source organization. The second skipped check requires an external commercial synthesis flow and benchmark. The formerly missing synthetic fixtures and duplicate test-module collection problem were repaired.
+The earlier release check exposed the functional failure
+`tests/revolution/test_algorithm.py::test_copy_misc_files_filters`. The auxiliary
+copy loop was unreachable. This release restores flat, problem-specific non-RTL
+file staging before candidate simulation, with binary-data, reserved-file,
+directory-boundary and symlink regression checks for both engine save paths.
+The formerly failing test now passes. Scoring, correctness gates and model losses
+remain unchanged. See [the auxiliary-file behavior and limits](SEARCH_AUXILIARY_FILES.md).
+No claim is made about which historical searches were affected.
 
-The dataset-generation suite recorded **30 passed and nine passed subtests** using fabricated measured rows and a local source catalog. It checks real offline assembly, schema and label preservation, deduplication priority, whole-lineage splits, checksum verification, explicit network opt-in, relative configuration paths and protection against overwriting input/output locations. A separate comparison with the preserved builder produced six byte-identical output files for 18 synthetic records. Dataset script help and verification dispatch were checked from another directory. No retained research dataset was regenerated.
+The dataset-generation/preparation suite contains **61 tests** using fabricated
+measured rows and a local source catalog. They cover offline assembly, schema and
+label preservation, deduplication priority, whole-lineage splits, checksums,
+network opt-in, relative configuration paths, protected inputs/outputs, the three
+named test-result policies and a runnable walkthrough. A comparison with the
+preserved builder produced six byte-identical output files for 18 synthetic
+records. All 17 recovered report/conversion functions match their retained source
+ASTs. Synthetic report and resynthesis comparisons each reproduced two accepted
+and four rejected points, with matching emitted rows and rejection counts.
+
+The [walkthrough](SYNTHETIC_WALKTHROUGH.md) converts two fabricated test results,
+assembles an 18-row dataset and verifies its labels, checksums, deduplication and
+zero training/validation lineage overlap. It succeeds with isolated Python
+(`-I -S`) from another directory using only the standard library. Seven canonical
+launcher help checks passed from another directory. No retained dataset was
+regenerated and no learned inference or synthesis is part of this walkthrough.
 
 The package preserves generic synthesis scripts as installed resources, and applicable license texts are included in the package distribution. Source line endings are normalized for Linux shell scripts. A fresh Git checkout is built and installed separately before preparation is delivered; detailed machine-specific verification records remain outside this public source tree.
 
@@ -28,4 +55,8 @@ No training job, optimization search, commercial synthesis run or Docker build i
 
 Historical integration checks successfully loaded the retained v6.3 model for small standalone prediction/evaluation samples. Those historical private-artifact checks do not make the source-only release independently reproduce the recorded results.
 
-The remaining inherited test failure and skipped external-payload checks are not evidence of new training or search outcomes. The release verification records current source behavior without treating omitted payloads as shipped dependencies.
+The external-payload skips are not evidence of new training or search outcomes.
+The release verification records current source behavior without treating omitted
+payloads as shipped dependencies. Test-result conversion/filtering is available;
+historical simulation-based training-pool overlap removal remains excluded, and
+exact reproduction of the seven retained v6.3 test sets is not established.

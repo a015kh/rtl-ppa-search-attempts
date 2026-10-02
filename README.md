@@ -2,17 +2,39 @@
 
 Research code for predicting RTL power, delay and area (PPA), and using predictions or synthesis measurements to guide RTL optimization. The release includes a maintained training/evaluation workflow, two search implementations, and selected historical loss and ranking experiments.
 
+The final recorded DC/PT v6.3 model completed ten training epochs. Its standalone evaluation varied substantially across the saved sets:
+
+| Saved evaluation set | Mean metric accuracy below 20% relative error | All three metrics below 20% relative error |
+|---|---:|---:|
+| `test` | 80.45% | 59.38% |
+| `test_realbench` | 31.26% | 14.17% |
+
+These percentages use successfully decoded examples; failed decodes are listed separately in the [complete nine-set results](docs/V63_RESULTS.md) and [aggregate table](results/v6.3/evaluation-summary.csv). Mean metric accuracy averages area, delay and total power; joint accuracy requires all three to pass. Zero targets dominate some saved mean-relative-error values. The [recorded loss curves](docs/V63_RESULTS.md#recorded-loss-curves) show training loss falling while loss on the capped validation subset rises. These measurements do not isolate the cause of the generalization gap. **No retained evidence establishes v6.3 evaluation inside optimization search**, so standalone accuracy is not a demonstrated search benefit.
+
 The population search is derived from [REvolution](https://github.com/kmcho2019/REvolution) and its [paper](https://arxiv.org/abs/2510.21407). The numeric prediction backend and training workflow adapt [Google DeepMind's regress-lm](https://github.com/google-deepmind/regress-lm). The local EvolVE implementation is inspired by the [EvolVE paper](https://arxiv.org/abs/2601.18067). See [third-party notices](THIRD_PARTY_NOTICES.md) for component origins and licenses.
 
 ## What is included
 
 - PPA model training, standalone evaluation and sampled inference.
+- Offline test-data preparation from completed result/report inputs, with [explicit conversion and filtering policies](docs/TEST_DATASET_PREPARATION.md).
 - Dataset assembly from previously measured PPA inputs, with lineage-aware splitting and [recorded source-distribution tables](docs/DATASET_GENERATION.md).
 - REvolution-derived population search and a local EvolVE implementation with IC-RTL, VerilogEval and CVDP adapters.
 - Historical Number Token Loss, latent-loss, ranking and pairwise-classification attempts, with [an experiment index](docs/EXPERIMENTS.md).
 - [Aggregate DC/PT v6.3 training and evaluation results](docs/V63_RESULTS.md), including loss curves and all nine saved split summaries.
 
 Datasets, trained checkpoints, benchmark payloads, cell libraries and per-design results are not included. Supply compatible artifacts and licensed tools locally. The aggregate v6.3 results measure standalone prediction; no retained evidence establishes v6.3 evaluation inside search.
+
+## Start with the offline synthetic walkthrough
+
+From a checkout, run the [synthetic walkthrough](scripts/synthetic_walkthrough.py) using Python 3.11 or newer:
+
+```bash
+python scripts/synthetic_walkthrough.py --output /path/to/new-synthetic-walkthrough
+```
+
+The [walkthrough guide](docs/SYNTHETIC_WALKTHROUGH.md) explains the fabricated inputs and expected local outputs. It needs no dataset, checkpoint, GPU, API access or synthesis tools. It exercises the real preparation/assembly interfaces with fabricated measurements; it is an engineering demonstration, not model training, PPA inference, optimization search or additional v6.3 evidence.
+
+Use the [workflow map](docs/WORKFLOWS.md) to select a canonical entrypoint and see its required inputs and outputs. The map also distinguishes maintained workflows from historical experiments and auxiliary scripts.
 
 ## Installation
 
@@ -25,6 +47,17 @@ python -m pip install -e ".[ppa,dev]"
 ```
 
 Choose a PyTorch build compatible with your GPU. Some model families have access or license requirements. No model is downloaded by the example commands. External tools, API access and PDKs are required only for workflows that use them. The Dockerfile is an optional tool-build recipe; it does not provide commercial tools, model artifacts or cell libraries.
+
+## Prepare evaluation shards
+
+Supply completed result JSON, raw DC/PT reports, or measured resynthesis artifacts to the offline test-data converter. Edit its configuration to choose the explicit conversion/filtering policy and a new output directory:
+
+```bash
+python scripts/prepare_test_dataset.py preflight --config /path/to/test-config.json
+python scripts/prepare_test_dataset.py build --config /path/to/test-config.json
+```
+
+The [test-data preparation guide](docs/TEST_DATASET_PREPARATION.md) defines required inputs and success-filter behavior. This stage writes configured JSONL shards and an audit summary; it does not execute tools. The separate historical overlap-removal simulation is outside this release. Feed compatible prepared shards into dataset assembly below.
 
 ## Assemble a dataset
 
@@ -51,6 +84,8 @@ python scripts/ppa.py predict --config configs/ppa.example.json --dataset /path/
 Add `--dry-run` to inspect dispatch and input validation. Outputs must be new and separate from input artifacts. Evaluation loads only the requested split and shares the retained evaluator with training. Prediction produces sampled floating-point outputs; invalid decodes are recorded. [Input and checkpoint requirements](docs/CONFIGURATION.md) explain compatibility and optional checksums.
 
 ## Optimization search
+
+The release fixes an unreachable auxiliary-file copying loop: problem-specific flat non-RTL inputs are now staged before simulation. [Scope and historical limits](docs/SEARCH_AUXILIARY_FILES.md) explain the fix; hierarchical/include staging is not covered, and saved historical runs are not repaired.
 
 Supply external benchmarks and configure the selected synthesis flow and library. Start with launcher help:
 

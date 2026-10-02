@@ -2,6 +2,15 @@
 
 The released dataset builder consolidates **already measured Design Compiler / PrimeTime rows** into a unified dataset with provenance, deduplication and lineage-aware training/validation splits. It does not collect arbitrary RTL, generate augmentation candidates, run synthesis or create fresh PPA labels. Those upstream stages require separately prepared inputs and tool flows. No collected dataset, source catalog, lineage payload or benchmark records are included in this code release.
 
+The separate [test-result preparation workflow](TEST_DATASET_PREPARATION.md)
+converts supplied historical result JSON or completed DC/PT reports into test
+JSONL. It exposes named filtering policies and records accepted/rejected counts;
+it does not execute synthesis. Supply those prepared files through `[tests.sources]`
+in the assembler configuration. The [synthetic walkthrough](SYNTHETIC_WALKTHROUGH.md)
+runs test conversion and dataset assembly using invented inputs without external
+artifacts. [The workflow map](WORKFLOWS.md) distinguishes these supported stages
+from historical helpers.
+
 ## Run the builder with explicit inputs
 
 Copy `configs/dataset.example.toml` to an experiment configuration and supply all required historical-format artifacts. Inspect the interface first:

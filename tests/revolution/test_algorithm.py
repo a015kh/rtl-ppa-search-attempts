@@ -266,6 +266,185 @@ def test_copy_misc_files_filters(tmp_path, mocker):
     assert not (outdir / "another_misc.txt").exists()
 
 
+def _aux_engine(tmp_path, mocker, engine_class=EoHEngine):
+    mocker.patch.object(EoHEngine, "load_problem_description", return_value="synthetic prompt")
+    llm = MagicMock()
+    llm.model_name = "synthetic-model"
+    synth = MagicMock()
+    synth.clk_period = 1.0
+    engine = engine_class("synthetic-bench", "prob", llm, MagicMock(), synth, base_save_path=str(tmp_path / "results"))
+    benchmark = tmp_path / "inputs"
+    benchmark.mkdir()
+    engine.benchmark_path = str(benchmark)
+    output = Path(engine.base_save_path) / "candidate"
+    output.mkdir(parents=True)
+    return engine, benchmark, output
+
+
+@pytest.mark.parametrize("filename", [
+    "prob2_util.dat", "other_util.dat", "prob_util.sv", "prob_util.V",
+    "prob_util.svh", "prob_util.vh", "prob_util.vhdl", "prob_util.vhd",
+    "prob_prompt.txt", "prob_ppa.txt", "prob_makefile", "prob_ifc.txt",
+    "prob_compiled.vvp", "prob_simulation.log", "prob_ref.syn.v",
+    "prob_sample_thought.txt", "prob_sample_feedback.txt", "prob_changes.diff",
+])
+def test_copy_misc_files_excludes_other_problems_and_reserved_records(tmp_path, mocker, filename):
+    engine, benchmark, output = _aux_engine(tmp_path, mocker)
+    (benchmark / filename).write_text("excluded synthetic record")
+    engine._copy_misc_files(str(output))
+    assert list(output.iterdir()) == []
+
+
+def test_copy_misc_files_keeps_memory_inputs_and_does_not_recurse(tmp_path, mocker):
+    engine, benchmark, output = _aux_engine(tmp_path, mocker)
+    inputs = {"prob_test_data.dat": "0011", "prob_reference.txt": "0101", "prob_ref.dat": "1100", "prob_ref.hex": "1f", "prob_test.txt": "sample values", "prob.hex": "ab"}
+    for filename, contents in inputs.items():
+        (benchmark / filename).write_text(contents)
+    directory = benchmark / "prob_nested"
+    directory.mkdir()
+    (directory / "prob_extra.dat").write_text("never copied")
+    engine._copy_misc_files(str(output))
+    assert {path.name: path.read_text() for path in output.iterdir()} == inputs
+    assert not (output / "prob_nested").exists()
+
+
+def test_copy_misc_files_preserves_existing_regular_file(tmp_path, mocker):
+    engine, benchmark, output = _aux_engine(tmp_path, mocker)
+    (benchmark / "prob_values.dat").write_text("new input")
+    destination = output / "prob_values.dat"
+    destination.write_text("existing input")
+    engine._copy_misc_files(str(output))
+    engine._copy_misc_files(str(output))
+    assert destination.read_text() == "existing input"
+
+
+def test_copy_misc_files_preserves_binary_bytes(tmp_path, mocker):
+    engine, benchmark, output = _aux_engine(tmp_path, mocker)
+    contents = b"\x00\xff\r\n01\n"
+    (benchmark / "prob_values.bin").write_bytes(contents)
+    engine._copy_misc_files(str(output))
+    assert (output / "prob_values.bin").read_bytes() == contents
+
+
+def _make_aux_symlink(link, target, *, directory=False):
+    try:
+        link.symlink_to(target, target_is_directory=directory)
+    except (OSError, NotImplementedError) as exc:
+        pytest.skip(f"symlink creation unavailable on this platform: {exc}")
+
+
+@pytest.mark.parametrize("target_inside", [True, False])
+def test_copy_misc_files_skips_source_symlinks(tmp_path, mocker, target_inside):
+    engine, benchmark, output = _aux_engine(tmp_path, mocker)
+    target = (benchmark if target_inside else tmp_path) / "target.dat"
+    target.write_text("symlink source")
+    _make_aux_symlink(benchmark / "prob_values.dat", target)
+    engine._copy_misc_files(str(output))
+    assert list(output.iterdir()) == []
+    assert target.read_text() == "symlink source"
+
+
+@pytest.mark.parametrize("broken", [False, True])
+def test_copy_misc_files_rejects_destination_symlinks(tmp_path, mocker, broken):
+    engine, benchmark, output = _aux_engine(tmp_path, mocker)
+    (benchmark / "prob_values.dat").write_text("benchmark input")
+    target = tmp_path / "external.dat"
+    if not broken:
+        target.write_text("untouched external content")
+    _make_aux_symlink(output / "prob_values.dat", target)
+    with pytest.raises(ValueError, match="symlink or non-regular"):
+        engine._copy_misc_files(str(output))
+    if broken:
+        assert not target.exists()
+    else:
+        assert target.read_text() == "untouched external content"
+
+
+def test_copy_misc_files_rejects_non_regular_destination(tmp_path, mocker):
+    engine, benchmark, output = _aux_engine(tmp_path, mocker)
+    (benchmark / "prob_values.dat").write_text("benchmark input")
+    (output / "prob_values.dat").mkdir()
+    with pytest.raises(ValueError, match="non-regular"):
+        engine._copy_misc_files(str(output))
+
+
+def test_copy_misc_files_rejects_output_symlink_boundary(tmp_path, mocker):
+    engine, benchmark, output = _aux_engine(tmp_path, mocker)
+    (benchmark / "prob_values.dat").write_text("benchmark input")
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    link = Path(engine.base_save_path) / "linked"
+    _make_aux_symlink(link, outside, directory=True)
+    with pytest.raises(ValueError, match="symlinks"):
+        engine._copy_misc_files(str(link))
+    assert list(outside.iterdir()) == []
+
+
+def test_copy_misc_files_rejects_output_outside_result_root(tmp_path, mocker):
+    engine, benchmark, output = _aux_engine(tmp_path, mocker)
+    (benchmark / "prob_values.dat").write_text("benchmark input")
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    with pytest.raises(ValueError, match="within base_save_path"):
+        engine._copy_misc_files(str(outside))
+    assert list(outside.iterdir()) == []
+
+
+@pytest.mark.parametrize("name", ["../prob", "prob/other", "prob\\other", "..", "", "C:prob"])
+def test_copy_misc_files_rejects_problem_name_traversal(tmp_path, mocker, name):
+    engine, benchmark, output = _aux_engine(tmp_path, mocker)
+    engine.problem_name = name
+    with pytest.raises(ValueError, match="single filename component"):
+        engine._copy_misc_files(str(output))
+    assert list(output.iterdir()) == []
+
+
+@pytest.mark.parametrize("engine_class", [EoHEngine, SingleShotEngine])
+def test_save_result_copies_auxiliary_inputs_for_both_engines(tmp_path, mocker, engine_class):
+    engine, benchmark, output = _aux_engine(tmp_path, mocker, engine_class)
+    (benchmark / "prob_values.dat").write_text("0011")
+    (benchmark / "prob_test.sv").write_text("synthetic testbench")
+    code_path, thought_path = engine._save_result_to_file("module m; endmodule", "thought", 0, 0)
+    directory = Path(code_path).parent
+    assert (directory / "prob_values.dat").read_text() == "0011"
+    assert Path(code_path).read_text() == "module m; endmodule"
+    assert Path(thought_path).read_text() == "thought"
+    assert not (directory / "prob_test.sv").exists()
+
+
+def test_single_shot_evaluation_receives_copied_inputs_and_original_test_paths(tmp_path, mocker):
+    engine, benchmark, output = _aux_engine(tmp_path, mocker, SingleShotEngine)
+    (benchmark / "prob_values.dat").write_text("0011")
+    test_path, reference_path = benchmark / "prob_test.sv", benchmark / "prob_ref.sv"
+    test_path.write_text("synthetic testbench")
+    reference_path.write_text("synthetic reference")
+    code_path, _ = engine._save_result_to_file("module m; endmodule", "thought", 0, 0)
+    candidate = Heuristic("thought", "module m; endmodule", "")
+    candidate.code_file_path = code_path
+
+    def evaluate(code, test, reference):
+        assert (Path(code).parent / "prob_values.dat").read_text() == "0011"
+        assert Path(test) == test_path
+        assert Path(reference) == reference_path
+        # Exercise the original failed-syntax path; copying must not bypass it.
+        return {"status": "compilation_error", "compilation_stderr": "synthetic failure"}
+
+    engine.evaluator.evaluate.side_effect = evaluate
+    engine._evaluate_candidates([candidate])
+    engine.evaluator.evaluate.assert_called_once()
+    engine.synthesis_evaluator.evaluate.assert_not_called()
+    assert candidate.status == "failed_syntax"
+    assert candidate.score == -float("inf")
+
+
+def test_save_result_rejects_output_escape_before_creating_directories(tmp_path, mocker):
+    engine, benchmark, output = _aux_engine(tmp_path, mocker)
+    engine.benchmark_name = str(tmp_path / "outside")
+    with pytest.raises(ValueError, match="within base_save_path"):
+        engine._save_result_to_file("module m; endmodule", "thought", 0, 0)
+    assert not (tmp_path / "outside").exists()
+
+
 def test_save_feedback_files_writes(engine_for_utils, tmp_path):
     # Prepare a dummy candidate (code file path drives feedback file path)
     code_path = tmp_path / "cand.sv"

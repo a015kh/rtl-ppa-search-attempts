@@ -1,0 +1,23 @@
+{
+  "output_root": "/path/to/new-prepared-test-dataset",
+  "shards": [
+    {
+      "name": "test.jsonl",
+      "policy": "legacy_result_json",
+      "inputs": ["/path/to/completed-results/test1.json", "/path/to/completed-results/test2.json", "/path/to/completed-results/test3.json"]
+    },
+    {
+      "name": "test_pluto.jsonl",
+      "policy": "dcpt_inputs_reports",
+      "jobs": "/path/to/completed-report-jobs.json",
+      "power_source": "primetime"
+    },
+    {
+      "name": "test_realbench.jsonl",
+      "policy": "resynthesis_success",
+      "input": "/path/to/original-inputs/test_realbench.jsonl",
+      "manifest": "/path/to/completed-resynthesis/manifest.sqlite3",
+      "work_root": "/path/to/completed-resynthesis"
+    }
+  ]
+}

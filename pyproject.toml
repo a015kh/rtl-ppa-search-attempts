@@ -20,6 +20,8 @@ dev = ["pytest>=8.4", "pytest-mock>=3.14", "pytest-asyncio>=1.1"]
 [project.scripts]
 rtl-ppa-search = "revolution.evolve.__main__:main"
 rtl-ppa-dataset = "revolution.dataset_generation:main"
+rtl-ppa-walkthrough = "revolution.synthetic_walkthrough:main"
+rtl-ppa-test-dataset = "revolution.test_dataset_preparation:main"
 revolution-evolve = "revolution.evolve.__main__:main"
 
 [tool.setuptools.packages.find]
