@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "inputs": [
+    {
+      "split": "train",
+      "path": "/path/to/measured-v6.3/train.jsonl"
+    },
+    {
+      "split": "train_aug",
+      "path": "/path/to/measured-v6.3/train_aug.jsonl"
+    },
+    {
+      "split": "valid",
+      "path": "/path/to/measured-v6.3/valid.jsonl"
+    },
+    {
+      "split": "valid_aug",
+      "path": "/path/to/measured-v6.3/valid_aug.jsonl"
+    }
+  ],
+  "sources": {
+    "mg-verilog": {
+      "category": "mg-verilog",
+      "upstream_url": "https://huggingface.co/datasets/GaTech-EIC/MG-Verilog",
+      "license": "MIT",
+      "license_url": "https://raw.githubusercontent.com/GATECH-EIC/mg-verilog/main/LICENSE",
+      "allow_base": false,
+      "allow_generated": false,
+      "allow_evaluation": false,
+      "redistribution_status": "unverified"
+    },
+    "scale-lab/MetRex": {
+      "category": "metrex",
+      "upstream_url": "https://huggingface.co/datasets/scale-lab/MetRex",
+      "license": "BSD-3-Clause",
+      "license_url": "https://huggingface.co/datasets/scale-lab/MetRex/raw/b9cb51395445da1586e5b0b3ba6f7c91851823c5/README.md",
+      "allow_base": false,
+      "allow_generated": false,
+      "allow_evaluation": false,
+      "redistribution_status": "unverified"
+    },
+    "openrtlset": {
+      "category": "openrtlset",
+      "upstream_url": "https://huggingface.co/datasets/ESCAD/OpenRTLSet",
+      "license": "Apache-2.0",
+      "license_url": "https://raw.githubusercontent.com/UIUC-ChenLab/OpenRTLSet/main/LICENSE",
+      "allow_base": false,
+      "allow_generated": false,
+      "allow_evaluation": false,
+      "redistribution_status": "unverified"
+    },
+    "bnadimi/PyraNet-Verilog": {
+      "category": "pyranet-verilog",
+      "upstream_url": "https://huggingface.co/datasets/bnadimi/PyraNet-Verilog",
+      "license": "CC-BY-NC-SA-4.0",
+      "license_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.en",
+      "allow_base": false,
+      "allow_generated": false,
+      "allow_evaluation": false,
+      "redistribution_status": "unverified"
+    },
+    "rtlcoder": {
+      "category": "rtlcoder",
+      "upstream_url": "https://github.com/hkust-zhiyao/RTL-Coder/tree/main/dataset",
+      "license": "Unresolved",
+      "license_url": null,
+      "allow_base": false,
+      "allow_generated": false,
+      "allow_evaluation": false,
+      "redistribution_status": "unverified"
+    },
+    "97kjmin/VeriLogos_Augmented_Dataset": {
+      "category": "verilogos-augmented",
+      "upstream_url": "https://huggingface.co/datasets/97kjmin/VeriLogos_Augmented_Dataset",
+      "license": "BSD-3-Clause",
+      "license_url": "https://raw.githubusercontent.com/97kjmin/VeriLogos/main/LICENSE",
+      "allow_base": false,
+      "allow_generated": false,
+      "allow_evaluation": false,
+      "redistribution_status": "unverified"
+    },
+    "local/test": {
+      "category": "test",
+      "upstream_url": null,
+      "license": "Unresolved",
+      "license_url": null,
+      "allow_base": false,
+      "allow_generated": false,
+      "allow_evaluation": false,
+      "redistribution_status": "unverified"
+    },
+    "local/test_deepseek_ref": {
+      "category": "test-deepseek-ref",
+      "upstream_url": null,
+      "license": "Unresolved",
+      "license_url": null,
+      "allow_base": false,
+      "allow_generated": false,
+      "allow_evaluation": false,
+      "redistribution_status": "unverified"
+    },
+    "local/test_ds_verilog_eval": {
+      "category": "test-ds-verilog-eval",
+      "upstream_url": "https://github.com/NVlabs/verilog-eval",
+      "license": "MIT with OpenAI Human-Eval MIT notice",
+      "license_url": "https://raw.githubusercontent.com/NVlabs/verilog-eval/main/LICENSE",
+      "allow_base": false,
+      "allow_generated": false,
+      "allow_evaluation": false,
+      "redistribution_status": "unverified"
+    },
+    "local/test_pluto": {
+      "category": "test-pluto",
+      "upstream_url": "https://github.com/scale-lab/Pluto",
+      "license": "BSD-3-Clause with third-party MIT notices",
+      "license_url": "https://raw.githubusercontent.com/scale-lab/Pluto/main/LICENSE",
+      "allow_base": false,
+      "allow_generated": false,
+      "allow_evaluation": false,
+      "redistribution_status": "unverified"
+    },
+    "local/test_ppa_feedback": {
+      "category": "test-ppa-feedback",
+      "upstream_url": null,
+      "license": "Unresolved",
+      "license_url": null,
+      "allow_base": false,
+      "allow_generated": false,
+      "allow_evaluation": false,
+      "redistribution_status": "unverified"
+    },
+    "local/test_realbench": {
+      "category": "test-realbench",
+      "upstream_url": "https://github.com/IPRC-DIP/RealBench",
+      "license": "MIT",
+      "license_url": "https://raw.githubusercontent.com/IPRC-DIP/RealBench/main/LICENSE",
+      "allow_base": false,
+      "allow_generated": false,
+      "allow_evaluation": false,
+      "redistribution_status": "unverified"
+    },
+    "local/test_rtl_opt": {
+      "category": "test-rtl-opt",
+      "upstream_url": "https://github.com/hkust-zhiyao/RTL-OPT",
+      "license": "MIT",
+      "license_url": "https://raw.githubusercontent.com/hkust-zhiyao/RTL-OPT/main/LICENSE",
+      "allow_base": false,
+      "allow_generated": false,
+      "allow_evaluation": false,
+      "redistribution_status": "unverified"
+    }
+  },
+  "forbidden_literals": [
+    "/path/to/private-cell-library"
+  ]
+}

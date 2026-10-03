@@ -4,9 +4,9 @@ Preparation verified source privacy, package build/install, launcher help/import
 
 ## Observed source checks
 
-The release was checked in an isolated Linux environment using Python 3.13, CPU PyTorch 2.9.0, the declared PPA dependencies and `ntloss==0.3.1`. Dependency consistency checks passed. Package imports, nine supported launcher help checks and both rank-plot utility help checks passed from another directory. Earlier checks also passed all six experimental entrypoint help checks, five installed EvolVE adapter help checks and synthetic explicit-input dispatch; those workflows are unchanged by the rank-statistics extensions.
+The release was checked in an isolated Linux environment using Python 3.13, CPU PyTorch 2.9.0, the declared PPA dependencies and `ntloss==0.3.1`. Dependency consistency checks passed. Package imports, nine earlier supported launcher help checks, the Verilog-only launcher help check and both rank-plot utility help checks passed from another directory. Earlier checks also passed all six experimental entrypoint help checks, five installed EvolVE adapter help checks and synthetic explicit-input dispatch; those workflows are unchanged by the result and source-only preparation extensions.
 
-The current full suite recorded **384 passed, two skipped, zero failed and 44
+The current full suite recorded **413 passed, two skipped, zero failed and 75
 passed subtests**. It includes actual Number Token Loss composition, masked-label
 and gradient checks on fabricated inputs, unchanged evaluator behavior, optional
 checksums, explicit locations and missing external dependencies. The skipped
@@ -83,6 +83,27 @@ byte-identical. Group reconstruction coverage, repeated records, mixed nominal
 clock constraints and limits on replay are reported alongside the results;
 these engineering checks do not prove functional equivalence or establish a
 v6.3 search experiment.
+
+## Verilog-only preparation checks
+
+The [companion exporter](VERILOG_ONLY_RELEASE.md) adds **29 synthetic tests**
+covering exact source/comment/line-ending preservation, global deduplication,
+clock-repeat counts, explicit source and kind policies, optional checksums,
+protected outputs, withholding of unsafe text, privacy of manifests, output
+schema/tamper checks and source-rights status. Unknown sources default to
+withholding; unverified rights produce staging-only packages. URLs with embedded
+credentials, direct IP addresses or malformed ports are rejected. Corrupted
+category distributions and malformed status values are also rejected.
+
+Source and installed preparation commands are checked from another directory
+with three fabricated measured rows containing private tool-report/PPA fields.
+They produce exactly two unchanged Verilog strings and only the five whitelisted
+dataset columns. Preflight, build and independent package verification succeed.
+Source dispatch uses isolated Python (`-I -S`) and needs no third-party package.
+Literal scanning preserves exact case-folded substring semantics while a bounded
+hash cache avoids repeated content scans of identical RTL; per-row policies and
+withholding counts remain unchanged. No collected RTL is bundled in Git or the
+package distribution, and the exporter does not certify record-level rights.
 
 ## External and historical limitations
 

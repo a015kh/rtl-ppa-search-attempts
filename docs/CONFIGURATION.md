@@ -41,6 +41,17 @@ sensitivity policies. Blank group IDs fail; no filename or lineage inference is
 performed. A local dataset can supply verified `family_id` for the maintained
 evaluator to retain in its CSV. See [the method and recovered groups](IN_GROUP_EVALUATION.md).
 
+## Verilog-only companion inputs
+
+`scripts/prepare_verilog_release.py` uses a separate JSON configuration with
+explicit named local input files and an exact source registry. Each source
+policy provides a public category, upstream URL and applicable license reference;
+base, generated and evaluation inclusion are separate opt-ins. Optional SHA-256
+checks pin supplied files but their paths/hashes are not exported. A missing
+source or unapproved record kind is withheld and counted. Exact duplicate source
+strings are merged with their original split memberships. No labels or tool
+records become dataset columns. See the [schema and release boundary](VERILOG_ONLY_RELEASE.md).
+
 ## Search benchmark and verification inputs
 
 Population search requires an external benchmark root containing selected suites and each task's specifications, reference RTL when used, verification inputs and any manifest/sidecar files required by the chosen evaluator. EvolVE adapters require the corresponding external IC-RTL, VerilogEval or CVDP layout. Synthetic fixtures in this repository test interfaces and do not provide those benchmark suites.

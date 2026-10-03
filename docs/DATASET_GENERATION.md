@@ -11,6 +11,12 @@ runs test conversion and dataset assembly using invented inputs without external
 artifacts. [The workflow map](WORKFLOWS.md) distinguishes these supported stages
 from historical helpers.
 
+For a source-only companion dataset, use the separate
+[Verilog-only exporter](VERILOG_ONLY_RELEASE.md). It removes measurement metadata
+by selecting only explicit source fields, deduplicates exact source strings and
+reports both measured-row and unique-code mixture counts. It does not distribute
+the PPA dataset or assume that a public source is licensed for redistribution.
+
 ## Run the builder with explicit inputs
 
 Copy `configs/dataset.example.toml` to an experiment configuration and supply all required historical-format artifacts. Inspect the interface first:
