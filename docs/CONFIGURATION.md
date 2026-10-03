@@ -32,6 +32,15 @@ Standalone evaluation preserves the historical decoding, sampled-median predicti
 
 For saved predictions, `scripts/summarize_rank_correlations.py` accepts CSV columns `gt_area`, `pred_area`, `gt_delay`, `pred_delay`, `gt_total_power` and `pred_total_power`. Each row must represent an already decoded prediction, as in the maintained evaluator's CSV output. Additional identifiers are ignored and never exported. Supply `--decode-fail split=count` if a separate summary records failures; omission means unknown, not zero. Output contains aggregate statistics only. See [recorded results and commands](V63_RESULTS.md#post-hoc-rank-correlations).
 
+For **in-group** ranking, use `scripts/summarize_grouped_rank_correlations.py`
+with an explicit verified group column and numeric clock column in addition to
+the six scalar prediction columns. It computes each metric inside each
+problem/clock group, then averages groups equally within clock and clocks equally.
+Its minimum finite-pair cutoff defaults to 10 and can be repeated for declared
+sensitivity policies. Blank group IDs fail; no filename or lineage inference is
+performed. A local dataset can supply verified `family_id` for the maintained
+evaluator to retain in its CSV. See [the method and recovered groups](IN_GROUP_EVALUATION.md).
+
 ## Search benchmark and verification inputs
 
 Population search requires an external benchmark root containing selected suites and each task's specifications, reference RTL when used, verification inputs and any manifest/sidecar files required by the chosen evaluator. EvolVE adapters require the corresponding external IC-RTL, VerilogEval or CVDP layout. Synthetic fixtures in this repository test interfaces and do not provide those benchmark suites.

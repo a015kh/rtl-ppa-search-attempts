@@ -75,6 +75,23 @@ Yao Lu et al., [*A New Benchmark for the Appropriate Evaluation of RTL Code Opti
 documents the local subsets, later Pluto venue and missing upstream revision pins.
 They are not the papers' own prediction results or PPA label sets.
 
+## In-group rank correlations
+
+The central ranking evaluation compares alternatives for the **same intended
+problem at a fixed recorded clock**. The [in-group results and method](IN_GROUP_EVALUATION.md)
+report Spearman rho and Kendall tau-b, equal-group/equal-clock macro averaging,
+usable-group counts and minimum-size policies. These are newly reconstructed
+statistics from saved predictions, without new inference or search.
+
+Saved `family_id` fields are blank, but retained dataset and generator/benchmark
+metadata support reconstructing intended families in the seven test sets.
+Training/validation family membership remains unverified. Dataset lineage hashes
+identify exact RTL implementations and are not substituted for problem families.
+Pluto's three-variant groups and RTL-OPT's two-variant base/reference pairs are
+reported with their applicable smaller cutoffs, separately from the historical
+ten-record policy. Read the reconstruction coverage and constant/undersized group
+counts alongside the coefficients.
+
 ## Post-hoc rank correlations
 
 These coefficients were computed during release preparation from the **saved
@@ -114,8 +131,9 @@ can change exact ties. The public summarizer uses `csv.DictReader` plus `float`.
 
 These are **pooled split correlations**, across different designs, variants and
 clock points. They are not averages of within-family coefficients. All retained
-`family_id` columns are blank, so no within-family candidate-ranking statistics
-are reconstructed. Repeated designs/settings also mean rows are not independent;
+`family_id` columns are blank; the separate in-group analysis reconstructs
+membership from retained source metadata, while this pooled table uses no groups.
+Repeated designs/settings also mean rows are not independent;
 no independence-based significance tests or p-values are reported. A high pooled
 rank correlation can coexist with low absolute prediction accuracy and does not
 demonstrate useful ranking of competing implementations of the same design.

@@ -2,6 +2,30 @@
 
 Research code for predicting RTL power, delay and area (PPA), and using predictions or synthesis measurements to guide RTL optimization. The release includes a maintained training/evaluation workflow, two search implementations, and selected historical loss and ranking experiments.
 
+The central evaluation question is whether predictions rank alternative
+implementations of the **same problem at a fixed clock target**. The
+[in-group Spearman and Kendall tau-b results](docs/IN_GROUP_EVALUATION.md)
+address this question separately from cross-design prediction accuracy and
+pooled correlations. Group reconstruction, minimum-size policies and usable
+group counts are part of the reported result.
+
+The recovered in-group results are weak on the saved alternatives. Each cell
+below is **Spearman rho / Kendall tau-b**, macro-averaged equally by problem
+within clock, then equally across clocks:
+
+| Candidate set | Minimum records per group | Area rho / tau-b | Delay rho / tau-b | Power rho / tau-b |
+|---|---:|---:|---:|---:|
+| DeepSeek reference | 10 | 0.1939 / 0.1577 | 0.1594 / 0.1380 | 0.2662 / 0.2149 |
+| Generated VerilogEval | 10 | 0.1863 / 0.1523 | 0.1951 / 0.1703 | 0.1418 / 0.1128 |
+| PPA feedback | 10 | 0.1279 / 0.1023 | 0.1201 / 0.0996 | 0.1750 / 0.1370 |
+| Pluto local subset | 3 | 0.1875 / 0.1944 | 0.0559 / 0.0229 | 0.1458 / 0.1944 |
+| RTL-OPT paired subset | 2 | 0.3181 / 0.3181 | -0.0007 / -0.0007 | 0.2500 / 0.2500 |
+
+The [complete in-group results](docs/IN_GROUP_EVALUATION.md) include usable-group
+counts, undefined/undersized groups, reconstruction coverage and constraint
+sensitivity. Small-subset policies are labeled separately; these are saved
+standalone prediction ranks, with no retained v6.3 search evaluation.
+
 The final recorded DC/PT v6.3 model completed ten training epochs. Its standalone evaluation varied substantially across the saved sets:
 
 | Saved evaluation set | Mean metric accuracy below 20% relative error | All three metrics below 20% relative error |
