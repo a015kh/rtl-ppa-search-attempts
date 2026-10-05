@@ -126,6 +126,27 @@ Private marker, known library artifact and numeric-PPA comment checks found no
 matches in the subset. Source/package checks do not clear the remaining source
 payloads or establish a new evaluation benchmark.
 
+## Findings documentation checks
+
+The first-person [project findings](PROJECT_FINDINGS.md), descriptive cohort
+names and [historical CE/NTL comparison](HISTORICAL_LOSS_COMPARISON.md) were
+checked against retained evidence. The historical export contains 12 summary
+rows and 72 per-clock rows: 336 statistic comparisons against the saved output
+agree exactly, and an independent SciPy calculation differs by at most
+`2.22e-16`. Shared candidate/clock/target identities, repeated matches, valid-draw
+coverage and per-model usable groups were audited. The invalid historical
+augmentation grouping has status/coverage only, with no numerical rank scores
+in the public export.
+
+The updated final-model and source-distribution tables passed 252 numeric
+comparisons against existing aggregates. The report's displayed tables, loss
+and rank equations, bibliography and relative documentation links were checked.
+The public export and fresh Git metadata were scanned for private identifiers
+and excluded payloads. This addition changes documentation, bibliography and
+aggregate metadata only; it does not change code, training data or evaluation
+semantics. No model inference or new research experiment was run, and the
+existing code/build test evidence is not presented as a newly rerun suite.
+
 ## External and historical limitations
 
 No training job, optimization search, commercial synthesis run or Docker build is claimed as part of source preparation. Public tests use synthetic inputs and mocks. Artifact-specific execution requires compatible datasets, trained checkpoints and external tools/libraries.

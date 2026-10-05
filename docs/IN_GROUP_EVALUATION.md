@@ -1,4 +1,4 @@
-# In-group PPA ranking evaluation
+# Same-Task RTL Ranking Suite: in-group PPA evaluation
 
 The central question is whether the estimator can rank alternative implementations
 of the **same intended problem at the same recorded clock target**. This is
@@ -6,11 +6,33 @@ different from recognizing that unrelated large designs usually have larger PPA
 values than unrelated small designs. Pooled split correlations can be high even
 when ordering alternatives within each problem is poor.
 
+The **Same-Task RTL Ranking Suite** is the reader-facing name for this evaluation
+of related RTL implementations. Its generated cohorts have descriptive names;
+the saved split identifiers remain unchanged in files and interfaces:
+
+| Reader-facing cohort | Saved split identifier | Candidate role |
+|---|---|---|
+| Reference-generated alternatives | `test_deepseek_ref` | Generated implementations organized by their intended reference task |
+| VerilogEval-based alternatives | `test_ds_verilog_eval` | Generated alternatives organized by their intended VerilogEval task |
+| PPA-feedback alternatives | `test_ppa_feedback` | Generated alternatives collected with PPA feedback |
+
+A group represents one **intended hardware task at a fixed recorded clock**.
+Useful optimization comparisons also require matching the complete synthesis
+conditions and functionally correct implementations. Recovered task membership
+does not prove equivalence, and a fixed nominal clock does not alone establish
+identical constraints; the checks and limitations below make those distinctions
+explicit. Evaluation candidates are separate from training augmentation rows;
+their names alone do not establish independence from the training corpus.
+
 These results are post-hoc analysis of the retained DC/PT v6.3 standalone
 prediction records. No new inference, training or optimization search was run.
 Predictions use the recorded 16-draw median procedure, and targets remain at the
 saved formatter precision. They assess ranking on saved alternatives; they do
 not establish a measured search improvement.
+
+The [project findings](PROJECT_FINDINGS.md) explain why this within-task question
+motivated the research. The [historical loss comparison](HISTORICAL_LOSS_COMPARISON.md)
+reports earlier CE/NTL evidence separately from these final-model results.
 
 ## Recorded in-group results
 
@@ -26,10 +48,10 @@ on these saved candidates; it does not identify the cause or quantify search out
 | `train` | unverified | N/A | N/A | N/A | N/A | N/A | N/A |
 | `valid` | unverified | N/A | N/A | N/A | N/A | N/A | N/A |
 | `test` | 0/0/0 | N/A | N/A | N/A | N/A | N/A | N/A |
-| `test_deepseek_ref` | 78/78/78 | 0.1939 | 0.1577 | 0.1594 | 0.1380 | 0.2662 | 0.2149 |
-| `test_ds_verilog_eval` | 633/599/648 | 0.1863 | 0.1523 | 0.1951 | 0.1703 | 0.1418 | 0.1128 |
+| Reference-generated alternatives (`test_deepseek_ref`) | 78/78/78 | 0.1939 | 0.1577 | 0.1594 | 0.1380 | 0.2662 | 0.2149 |
+| VerilogEval-based alternatives (`test_ds_verilog_eval`) | 633/599/648 | 0.1863 | 0.1523 | 0.1951 | 0.1703 | 0.1418 | 0.1128 |
 | `test_pluto` | 0/0/0 | N/A | N/A | N/A | N/A | N/A | N/A |
-| `test_ppa_feedback` | 84/82/84 | 0.1279 | 0.1023 | 0.1201 | 0.0996 | 0.1750 | 0.1370 |
+| PPA-feedback alternatives (`test_ppa_feedback`) | 84/82/84 | 0.1279 | 0.1023 | 0.1201 | 0.0996 | 0.1750 | 0.1370 |
 | `test_realbench` | 0/0/0 | N/A | N/A | N/A | N/A | N/A | N/A |
 | `test_rtl_opt` | 0/0/0 | N/A | N/A | N/A | N/A | N/A | N/A |
 
@@ -126,7 +148,7 @@ measurement histories or group provenance gaps remain possible limitations.
 
 ### Generated sets and match coverage
 
-The generated DeepSeek, VerilogEval and PPA-feedback implementation names encode
+The reference-generated, VerilogEval-based and PPA-feedback implementation names encode
 the task before the first double underscore, followed by generation/candidate
 information. This relationship is corroborated by the retained collection code
 and source rows. It is used during this private reconstruction; the public
@@ -140,10 +162,10 @@ prediction, so this is not a universal one-to-one record join:
 | Test set | Matched decoded rows | Fixed-clock groups | Rows matching multiple source records in the same family | Extra repeated normalized RTL records within source groups |
 |---|---:|---:|---:|---:|
 | `test` | 810 | 810 | 0 | 0 |
-| `test_deepseek_ref` | 13,172 | 90 | 4,272 | 3,996 |
-| `test_ds_verilog_eval` | 45,911 | 876 | 9,319 | 7,384 |
+| Reference-generated alternatives (`test_deepseek_ref`) | 13,172 | 90 | 4,272 | 3,996 |
+| VerilogEval-based alternatives (`test_ds_verilog_eval`) | 45,911 | 876 | 9,319 | 7,384 |
 | Pluto | 72 | 24 | 0 | 0 |
-| `test_ppa_feedback` | 14,206 | 90 | 0 | 294 |
+| PPA-feedback alternatives (`test_ppa_feedback`) | 14,206 | 90 | 0 | 294 |
 | RealBench | 515 | 515 | 0 | 0 |
 | RTL-OPT | 287 | 233 | 0 | 0 |
 
@@ -158,15 +180,15 @@ equivalence, and repeated observations do not constitute independent alternative
 ### Constraint sensitivity
 
 The primary historical partition fixes the **nominal recorded clock**. Six
-groups in each of the DeepSeek and generated VerilogEval sets contain unequal
+groups in each of the reference-generated and VerilogEval-based sets contain unequal
 SDC/`has_clock`: one candidate for a task has a real `clk` port while other
 records use a virtual clock. These are substantive differences. There are no
 such group differences in the PPA-feedback, Pluto or RTL-OPT selections.
 
 A strict sensitivity drops each entire mixed-constraint task/clock group,
 retaining the ten-record cutoff and the original records in remaining groups.
-It removes 1,050 DeepSeek rows and 360 generated VerilogEval rows. The affected
-DeepSeek groups and generated VerilogEval area/delay groups were already
+It removes 1,050 reference-generated rows and 360 VerilogEval-based rows. The affected
+reference-generated groups and VerilogEval-based area/delay groups were already
 undefined in the primary means, so those coefficients do not change. Removing
 one usable VerilogEval power group changes its rho from **0.1418 to 0.1412** and
 tau-b from **0.1128 to 0.1123**; the other five mixed-constraint power groups were
@@ -175,6 +197,21 @@ already undefined. PPA-feedback scores remain unchanged. The
 provide all counts and differences. This check preserves the conclusion of weak
 ranking on these records without claiming complete constraint or functionality
 verification of every candidate.
+
+## Historical loss-comparison boundary
+
+The separately recovered [CE/NTL comparison](HISTORICAL_LOSS_COMPARISON.md) uses
+earlier `v6.2.1` models at checkpoint 79,640, cached valid decoded draws and 15
+selected tasks in two correctly grouped candidate cohorts. It selects the first
+16 valid draws from caches of up to 64 and reports per-model usable-group counts.
+Candidate repetition and differing usable groups limit the comparison; it is
+descriptive evidence rather than a controlled causal loss ablation. It must not
+be presented as a comparison involving the final CE model above.
+
+The historical `test_aug_100` output is excluded from valid grouped-result
+tables: its grouping combined unrelated seed tasks under the identifier
+`sample`. Its original output is preserved privately as evidence of that error,
+not published as a same-task ranking result.
 
 ## Recompute with explicit groups
 

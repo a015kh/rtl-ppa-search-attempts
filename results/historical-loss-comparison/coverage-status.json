@@ -1,0 +1,41 @@
+{
+  "cohort_checks": [
+    {
+      "split": "test_ppa_feedback",
+      "same_ordered_design_clock_and_groundtruth": true,
+      "n_cached_rows_per_model": 1350
+    },
+    {
+      "split": "test_ds_verilog_eval",
+      "same_ordered_design_clock_and_groundtruth": true,
+      "n_cached_rows_per_model": 1350
+    },
+    {
+      "split": "test_aug_100",
+      "same_ordered_design_clock_and_groundtruth": true,
+      "n_cached_rows_per_model": 90
+    }
+  ],
+  "split_status": [
+    {
+      "split": "test_ppa_feedback",
+      "status": "verified_replay_of_selected_historical_cohort",
+      "n_selected_tasks": 15,
+      "n_cached_rows_per_model": 1350
+    },
+    {
+      "split": "test_ds_verilog_eval",
+      "status": "verified_replay_of_selected_historical_cohort",
+      "n_selected_tasks": 15,
+      "n_cached_rows_per_model": 1350
+    },
+    {
+      "split": "test_aug_100",
+      "status": "invalid_historical_grouping",
+      "n_cached_rows_per_model": 90,
+      "n_selected_initial_seed_ids": 65,
+      "n_recorded_group_values": 1,
+      "reason": "All reference records use the literal group label sample, combining unrelated initial seeds. Historical grouped numerical scores are withheld."
+    }
+  ]
+}

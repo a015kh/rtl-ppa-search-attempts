@@ -15,7 +15,7 @@
     "kendall_formula": "(concordant - discordant) / sqrt((concordant + discordant + ground_truth_only_ties) * (concordant + discordant + prediction_only_ties))",
     "unavailable": "Null when fewer than two finite pairs or either variable is constant; explicit status records the cause",
     "dependence": "Rows include repeated designs and clock points; no independence assumption or p-values are reported",
-    "family_scope": "Saved family_id is blank in all nine CSVs. No within-family candidate-ranking statistics are reconstructed",
+    "family_scope": "This pooled summary uses no families; saved family_id is blank in all nine CSVs. The separate in-group analysis reconstructs test memberships from retained metadata",
     "search_scope": "Pooled cross-design rank association is standalone model evidence and does not establish optimization-search improvement",
     "training_subset": "Training-set predictions cover only the retained 1,024-example subset",
     "decode_failures": "Failed decodes are absent from the CSV pairs and are reported separately; finite-pair filtering does not recover them"

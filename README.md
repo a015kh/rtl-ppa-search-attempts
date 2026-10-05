@@ -2,6 +2,12 @@
 
 Research code for predicting RTL power, delay and area (PPA), and using predictions or synthesis measurements to guide RTL optimization. The release includes a maintained training/evaluation workflow, two search implementations, and selected historical loss and ranking experiments.
 
+Read the first-person [project findings](docs/PROJECT_FINDINGS.md) for the research
+rationale, six clock constraints, regress-lm adaptation, CE/Number Token Loss
+decision and open problems. The main finding is that strong overall correlation
+does not establish useful ordering of alternatives for the same hardware task.
+The **Same-Task RTL Ranking Suite** makes that narrower question explicit.
+
 The central evaluation question is whether predictions rank alternative
 implementations of the **same problem at a fixed clock target**. The
 [in-group Spearman and Kendall tau-b results](docs/IN_GROUP_EVALUATION.md)
@@ -15,9 +21,9 @@ within clock, then equally across clocks:
 
 | Candidate set | Minimum records per group | Area rho / tau-b | Delay rho / tau-b | Power rho / tau-b |
 |---|---:|---:|---:|---:|
-| DeepSeek reference | 10 | 0.1939 / 0.1577 | 0.1594 / 0.1380 | 0.2662 / 0.2149 |
-| Generated VerilogEval | 10 | 0.1863 / 0.1523 | 0.1951 / 0.1703 | 0.1418 / 0.1128 |
-| PPA feedback | 10 | 0.1279 / 0.1023 | 0.1201 / 0.0996 | 0.1750 / 0.1370 |
+| Reference-generated alternatives | 10 | 0.1939 / 0.1577 | 0.1594 / 0.1380 | 0.2662 / 0.2149 |
+| VerilogEval-based alternatives | 10 | 0.1863 / 0.1523 | 0.1951 / 0.1703 | 0.1418 / 0.1128 |
+| PPA-feedback alternatives | 10 | 0.1279 / 0.1023 | 0.1201 / 0.0996 | 0.1750 / 0.1370 |
 | Pluto local subset | 3 | 0.1875 / 0.1944 | 0.0559 / 0.0229 | 0.1458 / 0.1944 |
 | RTL-OPT paired subset | 2 | 0.3181 / 0.3181 | -0.0007 / -0.0007 | 0.2500 / 0.2500 |
 
@@ -154,7 +160,14 @@ The adapters use a separate process and require an explicit output directory. Th
 
 ## Historical experiments and recorded results
 
-[Experimental launch instructions](docs/EXPERIMENTS.md) cover six preserved attempts. Their presence establishes implemented ideas, not successful runs or measured improvements. Number Token Loss uses CE weight 1.0 and NT weight 0.3 by default; no verified numerical comparison was recovered. The v6.3 model is not attributed to this loss.
+[Experimental launch instructions](docs/EXPERIMENTS.md) cover six preserved attempts.
+Number Token Loss combines CE weight 1.0 and NT weight 0.3 by default. A recovered
+[historical CE/NTL comparison](docs/HISTORICAL_LOSS_COMPARISON.md) shows weaker
+same-task correlations for CE+NTL on two selected earlier-model cohorts at the
+16-valid-draw setting, with coverage and repetition limits. It supports the
+researcher's CE choice without establishing a controlled causal ablation.
+The final v6.3 model is CE-trained; the other implemented attempts do not have
+verified efficacy comparisons.
 
 [The v6.3 results](docs/V63_RESULTS.md) document 10 epochs, 146,040 steps, 292 training-loss points, eight capped-validation-loss points and nine standalone prediction summaries. Failed decodes, training-subset limits and zero-target sensitivity are stated alongside the measurements. The public aggregate records do not replace the unavailable datasets or checkpoints.
 

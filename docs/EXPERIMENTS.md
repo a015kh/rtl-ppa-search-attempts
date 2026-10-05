@@ -1,10 +1,10 @@
 # Historical learning-objective attempts
 
-These implementations preserve research directions explored around the RTL/PPA workflow. They are experimental code rather than validated alternatives to the maintained training entrypoint. Original complete commands and a controlled numerical comparison are unavailable. Historical dataset-version names describe development context; they do not supply public data or prove that an experiment was run.
+These implementations preserve research directions explored around the RTL/PPA workflow. They are experimental code rather than validated alternatives to the maintained training entrypoint. Original complete commands and a controlled causal comparison are unavailable. Historical dataset-version names describe development context; they do not supply public data or prove that an experiment was run. A [recovered descriptive CE/NTL comparison](HISTORICAL_LOSS_COMPARISON.md) provides limited earlier-model evidence; the [project findings](PROJECT_FINDINGS.md) explain why within-task ranking guided the choice to retain CE.
 
 | Launcher choice | Motivation and implemented objective | Historical context | Evidence and dependencies |
 |---|---|---|---|
-| `number-token-loss` | Combine token cross-entropy with Number Token Loss to give numerical tokens an additional training signal. | Separate historical loss experiment; not established as the v6.3 checkpoint's objective. | Implementation and observed `ntloss==0.3.1` dependency recovered; no verified numerical comparison. |
+| `number-token-loss` | Combine token cross-entropy with Number Token Loss to give numerical tokens an additional training signal. | Historical v6.2.1 loss comparison; the final CE model did not use this objective. | Implementation, observed `ntloss==0.3.1` dependency and descriptive cached-draw grouped comparison recovered; no controlled causal ablation. |
 | `latent-losses` | Add configurable RankSim, RNC or ConR regularization to latent representations alongside numeric generation. | v6.2.1 family/group split formulation. | Implemented objectives; aggregate efficacy results not recovered. |
 | `mixed-rank` | Combine numeric token generation and family-aware ranking so related implementations can be compared. | v6.2.1 family/ranking formulation. | Requires suitable family identifiers and sufficient comparable family members; no controlled published comparison. |
 | `pair-classifier` | Predict ordered PPA relationships between paired implementations using a classification formulation. | v6.2.1 easy/hard pair and random/family split formulation. | Requires valid pairs, labels and model/tokenizer compatibility; no verified v6.3 contribution. |
@@ -40,4 +40,17 @@ The default enabled objectives are cross-entropy (`ce`) and Number Token Loss (`
 
 The optional dependency is pinned to `ntloss==0.3.1`, the version recovered from the observed research environment. The dependency supplies its own implementation and license; it is installed as a package, not vendored here.
 
-No verified numerical Number Token Loss comparison was recovered. Old report-generator statements are not experimental evidence and are excluded. The standalone v6.3 results must not be described as NT-loss results. The release retains the attempt so its idea and implementation can be inspected or tested using compatible user-supplied data.
+A numerical [historical CE/NTL comparison](HISTORICAL_LOSS_COMPARISON.md) has now
+been recovered for two correctly grouped candidate cohorts. It compares earlier
+`v6.2.1` models at checkpoint 79,640 using the first 16 valid draws from caches of
+up to 64, with 15 selected tasks and per-model usable-group counts. The selected
+subsets, repeated candidate records, conditional valid-draw procedure and
+different usable groups limit the comparison. These are descriptive results,
+not a controlled causal ablation or evidence about the final model.
+
+The historical `test_aug_100` output combined unrelated seed tasks under `sample`
+and is excluded from valid grouped-result tables. Its original output is
+preserved privately as an invalid grouping, and hardcoded old report-generator
+conclusions remain excluded. The standalone final CE model results must not be
+described as NT-loss results. The release retains the attempt so its idea and
+implementation can be inspected or tested using compatible user-supplied data.

@@ -2,6 +2,14 @@
 
 The released dataset builder consolidates **already measured Design Compiler / PrimeTime rows** into a unified dataset with provenance, deduplication and lineage-aware training/validation splits. It does not collect arbitrary RTL, generate augmentation candidates, run synthesis or create fresh PPA labels. Those upstream stages require separately prepared inputs and tool flows. No collected dataset, source catalog, lineage payload or benchmark records are included in this code release.
 
+The [project findings](PROJECT_FINDINGS.md) describe this one retained version as
+the **final DC/PT training corpus**, historically identified as `v6.3.0`. Its PPA
+data remains private. The public Verilog-only companion subset is a separate,
+rights-reviewed artifact, not a public copy of the measured training corpus.
+Training augmentation and the **Same-Task RTL Ranking Suite** evaluation
+candidates serve different roles; the [suite naming guide](IN_GROUP_EVALUATION.md)
+maps reader-facing cohort names to unchanged saved split identifiers.
+
 The separate [test-result preparation workflow](TEST_DATASET_PREPARATION.md)
 converts supplied historical result JSON or completed DC/PT reports into test
 JSONL. It exposes named filtering policies and records accepted/rejected counts;
@@ -74,10 +82,10 @@ Source recovery was not uniformly an exact-RTL match. The recorded construction 
 | `valid` | 27,150 | validation base |
 | `valid_aug` | 24,772 | validation augmentation |
 | `test` | 810 | Evaluation; `local/test` metadata |
-| `test_deepseek_ref` | 13,173 | Evaluation; `local/test_deepseek_ref` metadata |
-| `test_ds_verilog_eval` | 45,923 | Evaluation; `local/test_ds_verilog_eval` metadata |
+| `test_deepseek_ref` | 13,173 | Reference-generated alternatives; `local/test_deepseek_ref` metadata |
+| `test_ds_verilog_eval` | 45,923 | VerilogEval-based alternatives; `local/test_ds_verilog_eval` metadata |
 | `test_pluto` | 72 | Evaluation; `local/test_pluto` metadata |
-| `test_ppa_feedback` | 14,206 | Evaluation; `local/test_ppa_feedback` metadata |
+| `test_ppa_feedback` | 14,206 | PPA-feedback alternatives; `local/test_ppa_feedback` metadata |
 | `test_realbench` | 516 | Evaluation; `local/test_realbench` metadata |
 | `test_rtl_opt` | 288 | Evaluation; `local/test_rtl_opt` metadata |
 
@@ -91,7 +99,18 @@ additional benchmark attribution does not change the saved `local/test...`
 metadata, recover missing upstream revision pins or establish complete benchmark
 coverage, record-level licensing or independence.
 
-Retained training and validation lineage metadata contains **42,602 training lineages and 4,732 validation lineages**, with **zero overlap**, totaling 47,334. This confirms the saved lineage assignment; it does not establish every possible RTL similarity or benchmark leakage condition.
+### Recovered parent-provenance limit
+
+Retained training and validation lineage metadata contains **42,602 training lineages and 4,732 validation lineages**, with **zero overlap**, totaling 47,334. This confirms only the saved lineage assignment. A later audit recovered the actual Pyra augmentation parents and found that **all 21,223 retained Pyra augmentation rows across 139 families had incorrect saved parent hashes**. The historical builder interpreted their sample identifiers against an unrelated legacy seed input.
+
+Using the recovered true parents, **21 seed families cross training/validation
+splits, involving 3,345 child measurement rows**. Zero overlap in incorrectly
+assigned lineage hashes therefore does not establish a correct true-parent
+partition or verified family independence. The effect on the recorded model
+metrics is **unquantified**; this audit does not by itself identify the cause of
+weak ranking or invalidate every evaluation result. The historical source
+distribution and builder semantics above remain unchanged, and no silent dataset
+repair or metric recomputation is included in this release.
 
 Complete split sizes differ from the historical prediction evaluation denominators. The saved training evaluation used only 1,024 examples; validation prediction evaluation covered `valid`, not `valid_aug`. Failed decodes are also excluded from the historical accuracy denominator. See [v6.3 evaluation results](V63_RESULTS.md) for the corresponding metrics and zero-target caveats.
 
