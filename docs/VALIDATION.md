@@ -6,7 +6,7 @@ Preparation verified source privacy, package build/install, launcher help/import
 
 The release was checked in an isolated Linux environment using Python 3.13, CPU PyTorch 2.9.0, the declared PPA dependencies and `ntloss==0.3.1`. Dependency consistency checks passed. Package imports, nine earlier supported launcher help checks, the Verilog-only launcher help check and both rank-plot utility help checks passed from another directory. Earlier checks also passed all six experimental entrypoint help checks, five installed EvolVE adapter help checks and synthetic explicit-input dispatch; those workflows are unchanged by the result and source-only preparation extensions.
 
-The current full suite recorded **413 passed, two skipped, zero failed and 75
+The current full suite recorded **431 passed, two skipped, zero failed and 90
 passed subtests**. It includes actual Number Token Loss composition, masked-label
 and gradient checks on fabricated inputs, unchanged evaluator behavior, optional
 checksums, explicit locations and missing external dependencies. The skipped
@@ -104,6 +104,27 @@ Literal scanning preserves exact case-folded substring semantics while a bounded
 hash cache avoids repeated content scans of identical RTL; per-row policies and
 withholding counts remain unchanged. No collected RTL is bundled in Git or the
 package distribution, and the exporter does not certify record-level rights.
+
+## Reviewed Verilog subset checks
+
+The record-scoped workflow adds **ten synthetic regression tests**, and the
+offline source-recipe writer adds **eight**. They cover source/kind/exact-hash
+gates, line-ending changes, preserved complete notices, notice/source revision
+agreement, confidentiality after approval, unused/duplicate proofs, tampered
+checksums, external outputs, private I/O errors and dispatch from another
+directory. The recipe writer lists or writes public metadata only and makes no
+network request or dataset download.
+
+The separate prepared subset contains **41 exact RTL-OPT source strings**,
+representing **246 historical measurement rows**. Independent verification
+re-read all **594,231 original rows** and checked all eleven retained input
+checksums, exact code and membership matches, scoped rights evidence, pinned
+Git blob/tree/commit witnesses, the complete MIT notice and all twelve package
+file checksums. The historic mixture was independently reconstructed from
+**519,243 training/validation rows**; selected source/split tables also agree.
+Private marker, known library artifact and numeric-PPA comment checks found no
+matches in the subset. Source/package checks do not clear the remaining source
+payloads or establish a new evaluation benchmark.
 
 ## External and historical limitations
 

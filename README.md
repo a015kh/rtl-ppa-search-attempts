@@ -57,12 +57,12 @@ The population search is derived from [REvolution](https://github.com/kmcho2019/
 - PPA model training, standalone evaluation and sampled inference.
 - Offline test-data preparation from completed result/report inputs, with [explicit conversion and filtering policies](docs/TEST_DATASET_PREPARATION.md).
 - Dataset assembly from previously measured PPA inputs, with lineage-aware splitting and [recorded source-distribution tables](docs/DATASET_GENERATION.md).
-- [Verilog-only companion preparation](docs/VERILOG_ONLY_RELEASE.md), with exact-code deduplication, explicit source policies and mixture tables; PPA labels and tool artifacts remain excluded.
+- [Verilog-only companion preparation](docs/VERILOG_ONLY_RELEASE.md), including a reviewed subset of 41 exact RTL-OPT source files with their complete MIT notice, record-scoped provenance checks, and separate historical mixture tables.
 - REvolution-derived population search and a local EvolVE implementation with IC-RTL, VerilogEval and CVDP adapters.
 - Historical Number Token Loss, latent-loss, ranking and pairwise-classification attempts, with [an experiment index](docs/EXPERIMENTS.md).
 - [Aggregate DC/PT v6.3 training and evaluation results](docs/V63_RESULTS.md), including loss curves and all nine saved split summaries.
 
-Datasets, trained checkpoints, benchmark payloads, cell libraries and per-design results are not bundled in this code repository. A separate Verilog-only companion package can show the code mixture without distributing PPA measurements; source redistribution rights must still be resolved. Supply compatible artifacts and licensed tools locally. The aggregate v6.3 results measure standalone prediction; no retained evidence establishes v6.3 evaluation inside search.
+Datasets, trained checkpoints, benchmark payloads, cell libraries and per-design results are not bundled in this code repository. The separately prepared Verilog subset contains 41 exact RTL-OPT files; training-source payloads and unmatched evaluation records remain withheld. The [historical source mixture](docs/DATASET_GENERATION.md#recovered-source-distribution) describes the original training data, while [upstream recipes](docs/VERILOG_SOURCE_RECIPES.md) identify excluded sources. The subset contains no PPA measurements and cannot train or reproduce the retained model. Supply compatible artifacts and licensed tools locally. The aggregate v6.3 results measure standalone prediction; no retained evidence establishes v6.3 evaluation inside search.
 
 ## Start with the offline synthetic walkthrough
 

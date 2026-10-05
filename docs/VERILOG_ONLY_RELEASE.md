@@ -5,6 +5,89 @@ without distributing the retained PPA measurements. It is a separate data
 package, not a payload bundled with this source repository. The measured v6.3
 dataset and trained checkpoint remain separate private artifacts.
 
+## Reviewed subset and historical mixture
+
+The first reviewed subset contains **41 byte-exact RTL-OPT designs**, representing
+**246 historical measurement rows**. Each source string matches a complete file
+in the official [RTL-OPT repository](https://github.com/hkust-zhiyao/RTL-OPT/tree/25e4bbe052f02fde7f34eb8c3e37a7656e7dce20),
+and accompanies its [complete MIT notice](https://github.com/hkust-zhiyao/RTL-OPT/blob/25e4bbe052f02fde7f34eb8c3e37a7656e7dce20/LICENSE),
+including `Copyright (c) 2025 hkust-zhiyao`. That revision is a current review
+pin, not a claimed original import revision. RTL is not normalized or rewritten.
+
+All **594,231 historical input rows** were inspected by the record-scoped
+selection. **593,985 rows** were withheld because they lacked an approved exact
+source/kind/hash witness. Seven other RTL-OPT designs match only after line-ending
+or outer-blank normalization and remain excluded under this first subset's
+strict byte policy. This exclusion does not establish that redistribution of
+those modifications is prohibited.
+
+The retained Pluto variants have no exact match to the reviewed upstream files;
+some also lack the upstream copyright headers and contain source modifications.
+They require further provenance and notice work. Generated VerilogEval, other
+evaluation records, and all six training-source payloads remain withheld. A
+collection-wide MIT, BSD, Apache or CC declaration does not approve every
+underlying collected record. See [upstream recipes and limitations](VERILOG_SOURCE_RECIPES.md).
+
+The [selection CSV](../results/v6.3/verilog-subset-selection.csv) and
+[machine-readable summary](../results/v6.3/verilog-subset-selection.json) show
+historical, selected and withheld row counts. The unchanged
+[training-source distribution](DATASET_GENERATION.md#recovered-source-distribution)
+describes the original model's training/validation mixture. The reviewed subset
+contains no training-source designs and does **not** represent that mixture.
+The full candidate remains private. No Hugging Face or GitHub publication is
+performed by this preparation.
+
+Historical membership labels are not a new family-independent benchmark split.
+Recovered Pyra generation records show that historical augmentation parent
+identities were assigned incorrectly; the retained original splits therefore
+must not be advertised as verified family-disjoint. This source-only subset
+does not repair historical data or alter saved model results.
+
+## Prepare a record-scoped subset
+
+Use [the reviewed configuration example](../configs/licensed-verilog-release.example.json)
+and an explicitly reviewed private JSONL rights ledger:
+
+```bash
+python scripts/prepare_licensed_verilog_release.py build \
+  --config /path/to/reviewed-release.json --output /path/to/new-reviewed-package
+python scripts/prepare_licensed_verilog_release.py verify --output /path/to/new-reviewed-package
+```
+
+The installed alias is `rtl-ppa-licensed-verilog-release`. Both commands use
+only the standard library and work from another directory when given the
+launcher's location. The existing staging exporter below remains available.
+
+Each private ledger entry must contain `rtl_id`, the exact input
+`source_dataset`, a canonical `record_kind` (`base`, `generated`, or
+`evaluation`), `upstream_url`, a full 40-character `upstream_revision`, a relative
+POSIX `upstream_file`, `upstream_file_sha256`, an explicit `local_source_file`,
+and sorted `notice_ids`. The RTL and upstream-file SHA-256 must be equal. Local
+source witnesses are read and hashed; line-ending, whitespace or code changes
+fail an exact approval. A proof is scoped to its source and kind, so identical
+code in a different source/kind does not inherit permission.
+
+Configured notices require `id`, explicit local `path`, `sha256`, `license`,
+and the same repository/revision plus its `upstream_file`. Preserve the complete
+copyright, permission notice and disclaimer. Notice byte hashes are verified,
+and the source and notice revision must match. Actual upstream ownership and
+the completeness/applicability of those notices remain human review duties;
+the builder verifies the supplied evidence rather than inferring a legal grant.
+
+Optional `historical_mixture` points to an aggregate-only CSV with fields
+`source,base_rows,generated_rows,historical_rows,historical_percent`;
+`recipes_document` points to a standalone public Markdown guide. These inputs
+and the private ledger are kept outside Git. Private paths, source identity
+keys, unused witnesses and input hashes are absent from the output evidence.
+
+The package contains `data/` with the five-field Verilog core and its manifests,
+`record-rights.jsonl` with emitted-only public evidence, `licenses/` with complete
+notices, `selection.json`, `README.md`, `NOTICES.md` and checksums. Optional
+historical-mixture and upstream-recipe documents contain no RTL/PPA payloads.
+All earlier confidentiality exclusions still apply after license approval.
+Verification checks exact code hashes, observed source/kind memberships, notice
+coverage, aggregate consistency and the complete permitted file inventory.
+
 ## Release boundary
 
 Keep only the exact original `rtl` string and a small, explicit set of metadata:

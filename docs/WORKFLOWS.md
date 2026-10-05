@@ -10,6 +10,8 @@ Use the canonical entrypoints below from a source checkout. Every artifact-produ
 | Prepare measured evaluation shards | `python scripts/prepare_test_dataset.py preflight` then `build`, each with `--config` | Explicit completed result/report artifacts and conversion/filtering policy | Configured test JSONL shards and `audit.json` counts/checksums |
 | Assemble a training/evaluation dataset | `python scripts/generate_dataset.py preflight`, `build`, `verify`, each with `--config` | Measured base/external/augmentation/test inputs, provenance inputs and local catalog | Training/validation/test JSONL shards, lineage/source metadata, manifest and verification summary |
 | Prepare Verilog-only companion data | `python scripts/prepare_verilog_release.py preflight`, `build`, `verify` | Explicit named local inputs, source inclusion/rights policies and a new output directory | Exact-code deduplicated JSONL, aggregate mixture tables and output-only checksums; no PPA or tool records |
+| Prepare a reviewed Verilog subset | `python scripts/prepare_licensed_verilog_release.py build`, `verify` | Explicit named inputs, exact source/kind/hash rights ledger, pinned source witnesses, complete notices and a new output | Exact-source subset, emitted record-level evidence, notices, selected/withheld counts and checksums |
+| Inspect upstream acquisition recipes | `python scripts/retrieve_public_verilog_sources.py list` or `write` | Explicit `--source` selections and external `--output-dir` for writing | Offline public source links/revision/rights recipes only; no downloaded payload |
 | Train the maintained PPA model | `python scripts/ppa.py train` | `--config`, compatible JSONL `--dataset`, local base `--model`, new `--output` | Model checkpoints, training history and configured training/evaluation records |
 | Evaluate a compatible PPA checkpoint | `python scripts/ppa.py evaluate` | `--config`, `--dataset`, exact `--model`, new `--output`, explicit `--split` | Prediction/ground-truth CSV, metric summary and evaluation configuration |
 | Summarize saved prediction ranking | `python scripts/summarize_rank_correlations.py` | One or more explicit `--input split=/path/to/predictions.csv`; new `--output`; optional recorded `--decode-fail split=count` | Aggregate-only per-metric Spearman rho/Kendall tau-b CSV and JSON; no design records |
@@ -21,6 +23,12 @@ Use the canonical entrypoints below from a source checkout. Every artifact-produ
 | Inspect recorded v6.3 findings | [v6.3 results document](V63_RESULTS.md) and `results/v6.3/` | Bundled aggregate tables/curves | No execution required; historical standalone evidence only |
 
 The installed `rtl-ppa-test-dataset` command mirrors measured test-data preparation and `rtl-ppa-dataset` mirrors dataset assembly. `rtl-ppa-verilog-release` mirrors [Verilog-only preparation](VERILOG_ONLY_RELEASE.md). `rtl-ppa-search` mirrors the EvolVE dispatcher, with `revolution-evolve` retained as a compatibility alias. `rtl-ppa-walkthrough` mirrors the offline synthetic walkthrough, `rtl-ppa-rank-summary` mirrors the pooled saved-prediction rank summary, and `rtl-ppa-grouped-rank-summary` mirrors the within-problem summary. The PPA and historical-experiment commands above are source-checkout launchers.
+
+`rtl-ppa-licensed-verilog-release` mirrors the record-scoped subset workflow.
+Its review ledger and input/source witnesses are private inputs, while complete
+applicable notices and only emitted-record proofs accompany the separate data
+package. The historical mixture table remains distinct from selected source
+payloads; see [the upstream recipe guide](VERILOG_SOURCE_RECIPES.md).
 
 ## Inputs and preparation order
 

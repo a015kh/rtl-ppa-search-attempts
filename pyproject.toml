@@ -25,6 +25,7 @@ rtl-ppa-test-dataset = "revolution.test_dataset_preparation:main"
 rtl-ppa-rank-summary = "revolution.rank_evaluation:main"
 rtl-ppa-grouped-rank-summary = "revolution.grouped_rank_evaluation:main"
 rtl-ppa-verilog-release = "revolution.verilog_release:main"
+rtl-ppa-licensed-verilog-release = "revolution.licensed_verilog_release:main"
 revolution-evolve = "revolution.evolve.__main__:main"
 
 [tool.setuptools.packages.find]

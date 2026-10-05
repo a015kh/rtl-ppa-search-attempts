@@ -1,0 +1,14 @@
+source,historical_rows,selected_rows,withheld_rows,selected_unique_rtl,payload_status
+metrex,359752,0,359752,0,withheld-unverified
+mg-verilog,19728,0,19728,0,withheld-unverified
+openrtlset,52993,0,52993,0,withheld-unverified
+pyranet-verilog,50966,0,50966,0,withheld-unverified
+rtlcoder,2760,0,2760,0,withheld-unverified
+test,810,0,810,0,withheld-unverified
+test-deepseek-ref,13173,0,13173,0,withheld-unverified
+test-ds-verilog-eval,45923,0,45923,0,withheld-unverified
+test-pluto,72,0,72,0,withheld-unverified
+test-ppa-feedback,14206,0,14206,0,withheld-unverified
+test-realbench,516,0,516,0,withheld-unverified
+test-rtl-opt,288,246,42,41,exact-record-subset-only
+verilogos-augmented,33044,0,33044,0,withheld-unverified

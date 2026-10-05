@@ -1,0 +1,202 @@
+{
+  "counts": {
+    "included_rows": 246,
+    "measured_rows": 594231,
+    "unique_rtl_texts": 41,
+    "withheld_rows": 593985
+  },
+  "exclusion_reasons": {
+    "unapproved_record": 593985
+  },
+  "limits": [
+    "Upstream revisions are review evidence; original historical import revisions may be unknown.",
+    "This is a selected source-code subset, not the full training mixture, a PPA dataset, or an evaluation benchmark.",
+    "Original split memberships are historical and do not guarantee family independence.",
+    "Review checks byte identity and supplied notices, not upstream ownership or legal compatibility beyond the recorded evidence."
+  ],
+  "notices": [
+    {
+      "id": "rtl-opt-mit",
+      "license": "MIT",
+      "package_file": "licenses/rtl-opt-mit.txt",
+      "sha256": "82e13b3ce62a09cb770a2e2efdf034c6f71a1798406a4905753c6ed256eb59a1",
+      "upstream_file": "LICENSE",
+      "upstream_revision": "25e4bbe052f02fde7f34eb8c3e37a7656e7dce20",
+      "upstream_url": "https://github.com/hkust-zhiyao/RTL-OPT"
+    }
+  ],
+  "policy": "Exact UTF-8 upstream-file SHA256, explicit source and record kind, complete supplied notices, then confidentiality filtering. Collection labels never approve unmatched records.",
+  "schema_version": 1,
+  "source_distribution": [
+    {
+      "included_rows": 0,
+      "label": "metrex",
+      "measured_rows": 359752,
+      "unique_rtl_texts": 0,
+      "withheld_rows": 359752
+    },
+    {
+      "included_rows": 0,
+      "label": "mg-verilog",
+      "measured_rows": 19728,
+      "unique_rtl_texts": 0,
+      "withheld_rows": 19728
+    },
+    {
+      "included_rows": 0,
+      "label": "openrtlset",
+      "measured_rows": 52993,
+      "unique_rtl_texts": 0,
+      "withheld_rows": 52993
+    },
+    {
+      "included_rows": 0,
+      "label": "pyranet-verilog",
+      "measured_rows": 50966,
+      "unique_rtl_texts": 0,
+      "withheld_rows": 50966
+    },
+    {
+      "included_rows": 0,
+      "label": "rtlcoder",
+      "measured_rows": 2760,
+      "unique_rtl_texts": 0,
+      "withheld_rows": 2760
+    },
+    {
+      "included_rows": 0,
+      "label": "test",
+      "measured_rows": 810,
+      "unique_rtl_texts": 0,
+      "withheld_rows": 810
+    },
+    {
+      "included_rows": 0,
+      "label": "test-deepseek-ref",
+      "measured_rows": 13173,
+      "unique_rtl_texts": 0,
+      "withheld_rows": 13173
+    },
+    {
+      "included_rows": 0,
+      "label": "test-ds-verilog-eval",
+      "measured_rows": 45923,
+      "unique_rtl_texts": 0,
+      "withheld_rows": 45923
+    },
+    {
+      "included_rows": 0,
+      "label": "test-pluto",
+      "measured_rows": 72,
+      "unique_rtl_texts": 0,
+      "withheld_rows": 72
+    },
+    {
+      "included_rows": 0,
+      "label": "test-ppa-feedback",
+      "measured_rows": 14206,
+      "unique_rtl_texts": 0,
+      "withheld_rows": 14206
+    },
+    {
+      "included_rows": 0,
+      "label": "test-realbench",
+      "measured_rows": 516,
+      "unique_rtl_texts": 0,
+      "withheld_rows": 516
+    },
+    {
+      "included_rows": 246,
+      "label": "test-rtl-opt",
+      "measured_rows": 288,
+      "unique_rtl_texts": 41,
+      "withheld_rows": 42
+    },
+    {
+      "included_rows": 0,
+      "label": "verilogos-augmented",
+      "measured_rows": 33044,
+      "unique_rtl_texts": 0,
+      "withheld_rows": 33044
+    }
+  ],
+  "split_distribution": [
+    {
+      "included_rows": 0,
+      "label": "test",
+      "measured_rows": 810,
+      "unique_rtl_texts": 0,
+      "withheld_rows": 810
+    },
+    {
+      "included_rows": 0,
+      "label": "test_deepseek_ref",
+      "measured_rows": 13173,
+      "unique_rtl_texts": 0,
+      "withheld_rows": 13173
+    },
+    {
+      "included_rows": 0,
+      "label": "test_ds_verilog_eval",
+      "measured_rows": 45923,
+      "unique_rtl_texts": 0,
+      "withheld_rows": 45923
+    },
+    {
+      "included_rows": 0,
+      "label": "test_pluto",
+      "measured_rows": 72,
+      "unique_rtl_texts": 0,
+      "withheld_rows": 72
+    },
+    {
+      "included_rows": 0,
+      "label": "test_ppa_feedback",
+      "measured_rows": 14206,
+      "unique_rtl_texts": 0,
+      "withheld_rows": 14206
+    },
+    {
+      "included_rows": 0,
+      "label": "test_realbench",
+      "measured_rows": 516,
+      "unique_rtl_texts": 0,
+      "withheld_rows": 516
+    },
+    {
+      "included_rows": 246,
+      "label": "test_rtl_opt",
+      "measured_rows": 288,
+      "unique_rtl_texts": 41,
+      "withheld_rows": 42
+    },
+    {
+      "included_rows": 0,
+      "label": "train",
+      "measured_rows": 244349,
+      "unique_rtl_texts": 0,
+      "withheld_rows": 244349
+    },
+    {
+      "included_rows": 0,
+      "label": "train_aug",
+      "measured_rows": 222972,
+      "unique_rtl_texts": 0,
+      "withheld_rows": 222972
+    },
+    {
+      "included_rows": 0,
+      "label": "valid",
+      "measured_rows": 27150,
+      "unique_rtl_texts": 0,
+      "withheld_rows": 27150
+    },
+    {
+      "included_rows": 0,
+      "label": "valid_aug",
+      "measured_rows": 24772,
+      "unique_rtl_texts": 0,
+      "withheld_rows": 24772
+    }
+  ]
+}

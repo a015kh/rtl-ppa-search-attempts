@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "inputs": [{"split": "evaluation", "path": "/path/to/source-records.jsonl"}],
+  "sources": {
+    "rtl-opt": {
+      "category": "rtl-opt",
+      "upstream_url": "https://github.com/hkust-zhiyao/RTL-OPT",
+      "license": "MIT",
+      "license_url": "https://github.com/hkust-zhiyao/RTL-OPT/blob/25e4bbe052f02fde7f34eb8c3e37a7656e7dce20/LICENSE",
+      "redistribution_status": "unverified",
+      "allow_base": false,
+      "allow_generated": false,
+      "allow_evaluation": true
+    }
+  },
+  "rights_ledger": "/path/to/reviewed-record-rights.jsonl",
+  "notices": [{
+    "id": "rtl-opt-mit",
+    "path": "/path/to/exact-upstream-LICENSE",
+    "sha256": "82e13b3ce62a09cb770a2e2efdf034c6f71a1798406a4905753c6ed256eb59a1",
+    "license": "MIT",
+    "upstream_url": "https://github.com/hkust-zhiyao/RTL-OPT",
+    "upstream_revision": "25e4bbe052f02fde7f34eb8c3e37a7656e7dce20",
+    "upstream_file": "LICENSE"
+  }],
+  "forbidden_literals": []
+}
