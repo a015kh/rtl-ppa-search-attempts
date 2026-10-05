@@ -158,6 +158,11 @@ The adapters use a separate process and require an explicit output directory. Th
 
 [The v6.3 results](docs/V63_RESULTS.md) document 10 epochs, 146,040 steps, 292 training-loss points, eight capped-validation-loss points and nine standalone prediction summaries. Failed decodes, training-subset limits and zero-target sensitivity are stated alongside the measurements. The public aggregate records do not replace the unavailable datasets or checkpoints.
 
+## Collaborators
+
+- [jackmafan](https://github.com/jackmafan)
+- [ping89930](https://github.com/ping89930)
+
 ## Validation and licensing
 
 Run synthetic and migration checks with the development dependencies:
