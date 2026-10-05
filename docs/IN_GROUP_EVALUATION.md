@@ -12,9 +12,21 @@ the saved split identifiers remain unchanged in files and interfaces:
 
 | Reader-facing cohort | Saved split identifier | Candidate role |
 |---|---|---|
-| Reference-generated alternatives | `test_deepseek_ref` | Generated implementations organized by their intended reference task |
-| VerilogEval-based alternatives | `test_ds_verilog_eval` | Generated alternatives organized by their intended VerilogEval task |
-| PPA-feedback alternatives | `test_ppa_feedback` | Generated alternatives collected with PPA feedback |
+| REvolution/DeepSeek search cohort A | `test_deepseek_ref` | Retained cohort from REvolution search using DeepSeek |
+| REvolution/DeepSeek search cohort B | `test_ds_verilog_eval` | Another retained cohort from the same REvolution/DeepSeek search source |
+| PPA-guided search candidates | `test_ppa_feedback` | Researcher's historical search using an earlier trained PPA estimator |
+
+The generation-source descriptions reflect the researcher's corrected account.
+The two REvolution/DeepSeek cohorts share **764 exact RTL source strings** and
+all **15 task families** from cohort A; they have different retained records
+and neither code set is a subset of the other. They are not independent sources
+of evaluation evidence. Recovered run logs identify the earlier PPA-feedback
+proxy as a `v6.1.4` model named for five epochs, based on
+`google/t5gemma-s-s-prefixlm`. This logged identity is not a cryptographic
+per-candidate checkpoint binding, and the guiding proxy is separate from the
+final CE estimator evaluated here. The [origin/overlap record](../results/v6.3/evaluation-cohort-origins.json)
+keeps source recollection and measured overlap distinct. Legacy split identifiers
+do not establish independent selection procedures or independent datasets.
 
 A group represents one **intended hardware task at a fixed recorded clock**.
 Useful optimization comparisons also require matching the complete synthesis
@@ -48,10 +60,10 @@ on these saved candidates; it does not identify the cause or quantify search out
 | `train` | unverified | N/A | N/A | N/A | N/A | N/A | N/A |
 | `valid` | unverified | N/A | N/A | N/A | N/A | N/A | N/A |
 | `test` | 0/0/0 | N/A | N/A | N/A | N/A | N/A | N/A |
-| Reference-generated alternatives (`test_deepseek_ref`) | 78/78/78 | 0.1939 | 0.1577 | 0.1594 | 0.1380 | 0.2662 | 0.2149 |
-| VerilogEval-based alternatives (`test_ds_verilog_eval`) | 633/599/648 | 0.1863 | 0.1523 | 0.1951 | 0.1703 | 0.1418 | 0.1128 |
+| REvolution/DeepSeek search cohort A (`test_deepseek_ref`) | 78/78/78 | 0.1939 | 0.1577 | 0.1594 | 0.1380 | 0.2662 | 0.2149 |
+| REvolution/DeepSeek search cohort B (`test_ds_verilog_eval`) | 633/599/648 | 0.1863 | 0.1523 | 0.1951 | 0.1703 | 0.1418 | 0.1128 |
 | `test_pluto` | 0/0/0 | N/A | N/A | N/A | N/A | N/A | N/A |
-| PPA-feedback alternatives (`test_ppa_feedback`) | 84/82/84 | 0.1279 | 0.1023 | 0.1201 | 0.0996 | 0.1750 | 0.1370 |
+| PPA-guided search candidates (`test_ppa_feedback`) | 84/82/84 | 0.1279 | 0.1023 | 0.1201 | 0.0996 | 0.1750 | 0.1370 |
 | `test_realbench` | 0/0/0 | N/A | N/A | N/A | N/A | N/A | N/A |
 | `test_rtl_opt` | 0/0/0 | N/A | N/A | N/A | N/A | N/A | N/A |
 
@@ -148,7 +160,7 @@ measurement histories or group provenance gaps remain possible limitations.
 
 ### Generated sets and match coverage
 
-The reference-generated, VerilogEval-based and PPA-feedback implementation names encode
+The REvolution/DeepSeek and PPA-guided search implementation names encode
 the task before the first double underscore, followed by generation/candidate
 information. This relationship is corroborated by the retained collection code
 and source rows. It is used during this private reconstruction; the public
@@ -162,10 +174,10 @@ prediction, so this is not a universal one-to-one record join:
 | Test set | Matched decoded rows | Fixed-clock groups | Rows matching multiple source records in the same family | Extra repeated normalized RTL records within source groups |
 |---|---:|---:|---:|---:|
 | `test` | 810 | 810 | 0 | 0 |
-| Reference-generated alternatives (`test_deepseek_ref`) | 13,172 | 90 | 4,272 | 3,996 |
-| VerilogEval-based alternatives (`test_ds_verilog_eval`) | 45,911 | 876 | 9,319 | 7,384 |
+| REvolution/DeepSeek search cohort A (`test_deepseek_ref`) | 13,172 | 90 | 4,272 | 3,996 |
+| REvolution/DeepSeek search cohort B (`test_ds_verilog_eval`) | 45,911 | 876 | 9,319 | 7,384 |
 | Pluto | 72 | 24 | 0 | 0 |
-| PPA-feedback alternatives (`test_ppa_feedback`) | 14,206 | 90 | 0 | 294 |
+| PPA-guided search candidates (`test_ppa_feedback`) | 14,206 | 90 | 0 | 294 |
 | RealBench | 515 | 515 | 0 | 0 |
 | RTL-OPT | 287 | 233 | 0 | 0 |
 
@@ -180,17 +192,17 @@ equivalence, and repeated observations do not constitute independent alternative
 ### Constraint sensitivity
 
 The primary historical partition fixes the **nominal recorded clock**. Six
-groups in each of the reference-generated and VerilogEval-based sets contain unequal
+groups in each of the REvolution/DeepSeek cohorts A and B contain unequal
 SDC/`has_clock`: one candidate for a task has a real `clk` port while other
 records use a virtual clock. These are substantive differences. There are no
 such group differences in the PPA-feedback, Pluto or RTL-OPT selections.
 
 A strict sensitivity drops each entire mixed-constraint task/clock group,
 retaining the ten-record cutoff and the original records in remaining groups.
-It removes 1,050 reference-generated rows and 360 VerilogEval-based rows. The affected
-reference-generated groups and VerilogEval-based area/delay groups were already
+It removes 1,050 cohort A rows and 360 cohort B rows. The affected
+cohort A groups and cohort B area/delay groups were already
 undefined in the primary means, so those coefficients do not change. Removing
-one usable VerilogEval power group changes its rho from **0.1418 to 0.1412** and
+one usable cohort B power group changes its rho from **0.1418 to 0.1412** and
 tau-b from **0.1128 to 0.1123**; the other five mixed-constraint power groups were
 already undefined. PPA-feedback scores remain unchanged. The
 [strict sensitivity tables](../results/v6.3/in-group-constraint-sensitivity.csv)

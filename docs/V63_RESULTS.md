@@ -4,6 +4,14 @@ The [dataset construction and source-distribution tables](DATASET_GENERATION.md)
 
 These are recorded standalone results for the Design Compiler / PrimeTime v6.3.0 PPA model. They are published as aggregate evidence. Datasets, design-level predictions and checkpoints are not included. No retained evidence establishes that this v6.3 model was evaluated inside optimization search. The measurements do not demonstrate a search improvement or a controlled improvement over earlier model versions.
 
+The [cohort mapping](IN_GROUP_EVALUATION.md) distinguishes the two overlapping
+REvolution/DeepSeek search cohorts from the researcher's PPA-guided search
+candidates. Run logs identify the latter's earlier guiding proxy as a `v6.1.4`
+T5Gemma small model named for five epochs, without a cryptographic association
+to every retained candidate. The final model's predictions on these saved
+candidates are retrospective standalone evaluation, not evidence that it guided
+the original searches. The cohorts are not claimed as independent test sources.
+
 The [project findings](PROJECT_FINDINGS.md) call this the **final CE PPA model**
 and distinguish its standalone results from earlier-model loss/search evidence.
 The generated evaluation cohorts belong to the **Same-Task RTL Ranking Suite**;
@@ -49,10 +57,10 @@ The public history contains **292 training-loss points and 8 evaluation-loss poi
 | `train` | 1,024 | 0 | 0.00850522 | 99.41% | 98.73% |
 | `valid` | 27,143 | 7 | 6.02803e+07 | 75.96% | 60.82% |
 | `test` | 810 | 0 | 0.122938 | 80.45% | 59.38% |
-| Reference-generated alternatives (`test_deepseek_ref`) | 13,172 | 1 | 0.160337 | 76.90% | 59.70% |
-| VerilogEval-based alternatives (`test_ds_verilog_eval`) | 45,911 | 12 | 0.161441 | 75.22% | 54.60% |
+| REvolution/DeepSeek search cohort A (`test_deepseek_ref`) | 13,172 | 1 | 0.160337 | 76.90% | 59.70% |
+| REvolution/DeepSeek search cohort B (`test_ds_verilog_eval`) | 45,911 | 12 | 0.161441 | 75.22% | 54.60% |
 | `test_pluto` | 72 | 0 | 0.269014 | 50.93% | 26.39% |
-| PPA-feedback alternatives (`test_ppa_feedback`) | 14,206 | 0 | 0.258567 | 71.49% | 50.70% |
+| PPA-guided search candidates (`test_ppa_feedback`) | 14,206 | 0 | 0.258567 | 71.49% | 50.70% |
 | `test_realbench` | 515 | 1 | 4.80037e+09 | 31.26% | 14.17% |
 | `test_rtl_opt` | 287 | 1 | 0.274675 | 61.44% | 41.11% |
 
@@ -61,10 +69,10 @@ The public history contains **292 training-loss points and 8 evaluation-loss poi
 | `train` | 99.71% | 99.51% | 99.02% |
 | `valid` | 72.93% | 85.95% | 68.99% |
 | `test` | 80.37% | 88.40% | 72.59% |
-| Reference-generated alternatives (`test_deepseek_ref`) | 73.00% | 86.52% | 71.17% |
-| VerilogEval-based alternatives (`test_ds_verilog_eval`) | 72.29% | 86.02% | 67.36% |
+| REvolution/DeepSeek search cohort A (`test_deepseek_ref`) | 73.00% | 86.52% | 71.17% |
+| REvolution/DeepSeek search cohort B (`test_ds_verilog_eval`) | 72.29% | 86.02% | 67.36% |
 | `test_pluto` | 33.33% | 69.44% | 50.00% |
-| PPA-feedback alternatives (`test_ppa_feedback`) | 68.40% | 82.16% | 63.90% |
+| PPA-guided search candidates (`test_ppa_feedback`) | 68.40% | 82.16% | 63.90% |
 | `test_realbench` | 23.30% | 47.38% | 23.11% |
 | `test_rtl_opt` | 48.43% | 81.53% | 54.36% |
 
@@ -118,10 +126,10 @@ saved formatter/CSV precision; unrounded dataset targets are not substituted.
 | `train` | 1,024 | 0.9999 | 0.9977 | 0.9939 | 0.9887 | 0.9999 | 0.9966 |
 | `valid` | 27,143 | 0.9847 | 0.9246 | 0.9260 | 0.8407 | 0.9812 | 0.9164 |
 | `test` | 810 | 0.9818 | 0.9092 | 0.8998 | 0.7900 | 0.9864 | 0.9130 |
-| Reference-generated alternatives (`test_deepseek_ref`) | 13,172 | 0.9414 | 0.8411 | 0.9448 | 0.8337 | 0.9659 | 0.8748 |
-| VerilogEval-based alternatives (`test_ds_verilog_eval`) | 45,911 | 0.9740 | 0.8995 | 0.9007 | 0.7893 | 0.9789 | 0.9019 |
+| REvolution/DeepSeek search cohort A (`test_deepseek_ref`) | 13,172 | 0.9414 | 0.8411 | 0.9448 | 0.8337 | 0.9659 | 0.8748 |
+| REvolution/DeepSeek search cohort B (`test_ds_verilog_eval`) | 45,911 | 0.9740 | 0.8995 | 0.9007 | 0.7893 | 0.9789 | 0.9019 |
 | Pluto subset (`test_pluto`) | 72 | 0.8858 | 0.7086 | 0.9382 | 0.7948 | 0.9878 | 0.9098 |
-| PPA-feedback alternatives (`test_ppa_feedback`) | 14,206 | 0.9502 | 0.8397 | 0.9161 | 0.7806 | 0.9667 | 0.8694 |
+| PPA-guided search candidates (`test_ppa_feedback`) | 14,206 | 0.9502 | 0.8397 | 0.9161 | 0.7806 | 0.9667 | 0.8694 |
 | `test_realbench` | 515 | 0.6139 | 0.4597 | 0.6472 | 0.4889 | 0.7300 | 0.5669 |
 | RTL-OPT subset (`test_rtl_opt`) | 287 | 0.8142 | 0.6905 | 0.9024 | 0.7774 | 0.9405 | 0.8233 |
 

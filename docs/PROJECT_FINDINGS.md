@@ -2,7 +2,7 @@
 
 I started this project to make RTL optimization less dependent on expensive synthesis feedback. My goal was to predict power, delay and area (PPA) from Verilog and a clock constraint, then use those predictions to choose promising implementations during search. The practical question was whether a model could distinguish better and worse implementations of the same hardware task quickly enough to help optimization.
 
-The main finding is a gap between two evaluation questions. The final model often has strong rank correlation across a mixed collection of designs, but its ordering of alternatives within the same task is weak. For example, the retained VerilogEval-based alternatives have the following standalone results:
+The main finding is a gap between two evaluation questions. The final model often has strong rank correlation across a mixed collection of designs, but its ordering of alternatives within the same task is weak. For example, the retained REvolution/DeepSeek search cohort B has the following standalone results:
 
 | Metric | Pooled Spearman rho | Pooled Kendall tau-b | Same-task Spearman rho | Same-task Kendall tau-b | Usable task/clock groups |
 |---|---:|---:|---:|---:|---:|
@@ -22,9 +22,27 @@ This motivated my **Same-Task RTL Ranking Suite**. A group contains candidate im
 
 | Reader-facing cohort | Retained split identifier |
 |---|---|
-| Reference-generated alternatives | `test_deepseek_ref` |
-| VerilogEval-based alternatives | `test_ds_verilog_eval` |
-| PPA-feedback alternatives | `test_ppa_feedback` |
+| REvolution/DeepSeek search cohort A | `test_deepseek_ref` |
+| REvolution/DeepSeek search cohort B | `test_ds_verilog_eval` |
+| PPA-guided search candidates | `test_ppa_feedback` |
+
+I collected both REvolution/DeepSeek cohorts from DeepSeek search results in
+REvolution. Their legacy names do not identify independent generation sources.
+The retained cohorts share all 15 task families from cohort A and 764 exact RTL
+source strings, although their code contents and records are not identical.
+I keep their recorded evaluations separate while treating their overlap as a
+limit on independent evidence.
+
+The PPA-guided candidates come from one of my historical searches using an
+earlier, stale trained PPA estimator. Recovered run logs name a proxy from a
+five-epoch **v6.1.4** run based on `google/t5gemma-s-s-prefixlm`. They identify the
+configured and loaded model, without a cryptographic binding to every retained
+candidate. That estimator selected or scored search candidates; it is distinct
+from the final CE model evaluated on the saved candidates in this report.
+These are search-generated evaluation cohorts, shaped by their generation and
+selection procedures, rather than interchangeable independent test samples.
+The [cohort origin record](../results/v6.3/evaluation-cohort-origins.json) separates
+my source recollection from the verified retained overlap.
 
 These names describe the comparison, rather than the directory layout or generation machinery. Candidates are intended to implement the same behavior. The recovered group metadata does not establish formal equivalence for every candidate. Synthesis success, matching interfaces and an LLM's explanation of equivalence are insufficient substitutes for correctness verification.
 
@@ -82,14 +100,14 @@ I retained CE because the NTL experiments did not provide the grouped Spearman a
 
 | Earlier cohort / metric | CE same-task rho / tau-b | CE+NTL same-task rho / tau-b |
 |---|---:|---:|
-| PPA-feedback alternatives — area | 0.1340 / 0.1077 | 0.1210 / 0.0946 |
-| PPA-feedback alternatives — delay | 0.1728 / 0.1449 | 0.1015 / 0.0848 |
-| PPA-feedback alternatives — power | 0.0950 / 0.0774 | 0.0832 / 0.0639 |
-| VerilogEval-based alternatives — area | 0.0125 / -0.0076 | -0.0966 / -0.0901 |
-| VerilogEval-based alternatives — delay | 0.0526 / 0.0558 | -0.1692 / -0.1670 |
-| VerilogEval-based alternatives — power | -0.0531 / -0.0535 | -0.1515 / -0.1550 |
+| PPA-guided search candidates — area | 0.1340 / 0.1077 | 0.1210 / 0.0946 |
+| PPA-guided search candidates — delay | 0.1728 / 0.1449 | 0.1015 / 0.0848 |
+| PPA-guided search candidates — power | 0.0950 / 0.0774 | 0.0832 / 0.0639 |
+| REvolution/DeepSeek search cohort B — area | 0.0125 / -0.0076 | -0.0966 / -0.0901 |
+| REvolution/DeepSeek search cohort B — delay | 0.0526 / 0.0558 | -0.1692 / -0.1670 |
+| REvolution/DeepSeek search cohort B — power | -0.0531 / -0.0535 | -0.1515 / -0.1550 |
 
-Both models were evaluated on matching selected candidate/target identities. The reported setting uses up to the first 16 **valid cached draws from 64 generation attempts**, rather than 16 total attempts. It selects 15 tasks and up to 15 candidates per task/clock. Repeated reference records and omitted constant groups affect the averages; VerilogEval has only two to five usable groups per metric/clock. The [historical comparison](HISTORICAL_LOSS_COMPARISON.md) supplies coverage and aggregation details.
+Both models were evaluated on matching selected candidate/target identities. The reported setting uses up to the first 16 **valid cached draws from 64 generation attempts**, rather than 16 total attempts. It selects 15 tasks and up to 15 candidates per task/clock. Repeated reference records and omitted constant groups affect the averages; cohort B has only two to five usable groups per metric/clock. The [historical comparison](HISTORICAL_LOSS_COMPARISON.md) supplies coverage and aggregation details.
 
 Some historical overall correlations favor NTL, while these within-task correlations favor CE. The result is descriptive evidence for my decision, without establishing a universally inferior loss or a controlled causal ablation. The final model is CE-trained and must not be described as NTL-trained.
 

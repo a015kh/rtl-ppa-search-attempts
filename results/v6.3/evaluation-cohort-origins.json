@@ -1,0 +1,61 @@
+{
+  "scope": "Candidate-generation origins and aggregate overlap for retained evaluation cohorts; no new inference or search",
+  "source_evidence": "Researcher recollection identifies the search origins; an independent retained-data comparison verifies overlap and counts",
+  "evaluation_model": "Final DC/PT CE model, historical identifier v6.3.0",
+  "cohorts": [
+    {
+      "split": "test_deepseek_ref",
+      "reader_name": "REvolution/DeepSeek search cohort A",
+      "candidate_origin": "DeepSeek search results from REvolution",
+      "origin_evidence": "Researcher recollection",
+      "retained_rows": 13173,
+      "distinct_exact_rtl_strings": 1641,
+      "intended_task_families": 15
+    },
+    {
+      "split": "test_ds_verilog_eval",
+      "reader_name": "REvolution/DeepSeek search cohort B",
+      "candidate_origin": "DeepSeek search results from the same REvolution source as cohort A",
+      "origin_evidence": "Researcher recollection; retained shared code and task relationships independently verified",
+      "retained_rows": 45923,
+      "distinct_exact_rtl_strings": 6568,
+      "intended_task_families": 146
+    },
+    {
+      "split": "test_ppa_feedback",
+      "reader_name": "PPA-guided search candidates",
+      "candidate_origin": "Researcher's historical search using an earlier trained PPA estimator",
+      "origin_evidence": "Researcher recollection, corroborated by retained run-log proxy configuration and model-load records",
+      "guiding_checkpoint_identity": {
+        "historical_version": "v6.1.4",
+        "training_epochs_in_run_name": 5,
+        "base_model_family": "google/t5gemma-s-s-prefixlm",
+        "evidence": "Retained run-log configuration and model-load record",
+        "checkpoint_content_sha256": null
+      },
+      "guiding_checkpoint_status": "Logged model identity recovered; per-candidate cryptographic checkpoint association not recorded. Distinct from retrospective CE/NTL and final evaluation models",
+      "retained_rows": 14206,
+      "distinct_exact_rtl_strings": 2368,
+      "intended_task_families": 15
+    }
+  ],
+  "overlap": {
+    "left_split": "test_deepseek_ref",
+    "right_split": "test_ds_verilog_eval",
+    "method": "Exact UTF-8 RTL string identity; task identity from the retained intended-task grouping",
+    "shared_exact_rtl_strings": 764,
+    "shared_task_families": 15,
+    "all_cohort_a_task_families_in_cohort_b": true,
+    "cohort_a_exact_code_set_is_subset": false,
+    "cohort_b_exact_code_set_is_subset": false,
+    "interpretation": "Shared search origin and overlapping candidates; not identical retained cohorts and not independent evaluation sources"
+  },
+  "limits": [
+    "Legacy split names are preserved and do not establish distinct generation methods or independent datasets",
+    "Exact historical run and selection relationship between cohorts A and B has not been recovered",
+    "Shared source strings and intended task groups do not prove functional equivalence of every candidate",
+    "Historical guiding estimators are separate from estimators evaluated retrospectively on saved candidates",
+    "No retained evidence establishes final-model optimization-search evaluation",
+    "The existing numerical evaluation aggregates and records are unchanged"
+  ]
+}

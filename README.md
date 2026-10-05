@@ -8,6 +8,12 @@ decision and open problems. The main finding is that strong overall correlation
 does not establish useful ordering of alternatives for the same hardware task.
 The **Same-Task RTL Ranking Suite** makes that narrower question explicit.
 
+Two retained cohorts come from the same REvolution/DeepSeek search source and
+share candidates. The PPA-guided cohort comes from the researcher's historical
+search using an earlier trained estimator. These origins do not establish
+independent test sets or final-model search evaluation; see the
+[cohort mapping and overlap](docs/IN_GROUP_EVALUATION.md).
+
 The central evaluation question is whether predictions rank alternative
 implementations of the **same problem at a fixed clock target**. The
 [in-group Spearman and Kendall tau-b results](docs/IN_GROUP_EVALUATION.md)
@@ -21,9 +27,9 @@ within clock, then equally across clocks:
 
 | Candidate set | Minimum records per group | Area rho / tau-b | Delay rho / tau-b | Power rho / tau-b |
 |---|---:|---:|---:|---:|
-| Reference-generated alternatives | 10 | 0.1939 / 0.1577 | 0.1594 / 0.1380 | 0.2662 / 0.2149 |
-| VerilogEval-based alternatives | 10 | 0.1863 / 0.1523 | 0.1951 / 0.1703 | 0.1418 / 0.1128 |
-| PPA-feedback alternatives | 10 | 0.1279 / 0.1023 | 0.1201 / 0.0996 | 0.1750 / 0.1370 |
+| REvolution/DeepSeek search cohort A | 10 | 0.1939 / 0.1577 | 0.1594 / 0.1380 | 0.2662 / 0.2149 |
+| REvolution/DeepSeek search cohort B | 10 | 0.1863 / 0.1523 | 0.1951 / 0.1703 | 0.1418 / 0.1128 |
+| PPA-guided search candidates | 10 | 0.1279 / 0.1023 | 0.1201 / 0.0996 | 0.1750 / 0.1370 |
 | Pluto local subset | 3 | 0.1875 / 0.1944 | 0.0559 / 0.0229 | 0.1458 / 0.1944 |
 | RTL-OPT paired subset | 2 | 0.3181 / 0.3181 | -0.0007 / -0.0007 | 0.2500 / 0.2500 |
 

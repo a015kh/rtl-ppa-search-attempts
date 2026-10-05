@@ -7,6 +7,15 @@ cohorts, despite some favorable overall correlations. These are descriptive
 historical records, not a controlled causal ablation or a universally negative
 finding about NTL. See the first-person [project findings](PROJECT_FINDINGS.md).
 
+The selected comparison uses PPA-guided search candidates and REvolution/DeepSeek
+search cohort B. The guiding PPA estimator that originally collected the former
+is a separate role from the two CE/CE+NTL estimators compared below. Run logs
+name a `v6.1.4` T5Gemma small proxy from a five-epoch run, without cryptographic
+per-candidate checkpoint binding. The retrospective loss comparison uses later
+`v6.2.1` models. Cohorts A and B share a REvolution/DeepSeek
+source and some code, so split labels do not imply independent test sources.
+See the [origin and overlap clarification](IN_GROUP_EVALUATION.md).
+
 ## Models and prediction procedure
 
 The evaluator identifies two **earlier v6.2.1** T5Gemma models: CE and CE+NTL,
@@ -22,7 +31,7 @@ stochastic generations, in chunks of eight, and caches **only valid decoded
 draws**. Each curve point takes a component-wise median of the first available
 `k` valid draws. Thus `k=16` means **up to 16 valid draws from 64 attempts**, not
 16 total attempts. Four CE and three CE+NTL PPA-feedback examples have fewer
-than 16 valid draws; none has zero. All selected VerilogEval examples have at
+than 16 valid draws; none has zero. All selected cohort B examples have at
 least 16. The curve points share prefixes and are not independent repeated runs.
 Sampling temperature and top-p defaults are not explicitly recorded.
 
@@ -46,12 +55,12 @@ another distinction from the final model's formatter-rounded saved targets.
 
 | Historical cohort / metric | CE overall rho / tau-b | CE+NTL overall rho / tau-b | CE same-task rho / tau-b | CE+NTL same-task rho / tau-b |
 |---|---:|---:|---:|---:|
-| PPA-feedback alternatives — area | 0.8935 / 0.7588 | 0.8671 / 0.7442 | 0.1340 / 0.1077 | 0.1210 / 0.0946 |
-| PPA-feedback alternatives — delay | 0.6719 / 0.5311 | 0.7393 / 0.5894 | 0.1728 / 0.1449 | 0.1015 / 0.0848 |
-| PPA-feedback alternatives — power | 0.8813 / 0.7381 | 0.8375 / 0.7001 | 0.0950 / 0.0774 | 0.0832 / 0.0639 |
-| VerilogEval-based alternatives — area | 0.9717 / 0.9186 | 0.9795 / 0.9291 | 0.0125 / -0.0076 | -0.0966 / -0.0901 |
-| VerilogEval-based alternatives — delay | 0.9513 / 0.8821 | 0.9426 / 0.8749 | 0.0526 / 0.0558 | -0.1692 / -0.1670 |
-| VerilogEval-based alternatives — power | 0.9747 / 0.9155 | 0.9747 / 0.9180 | -0.0531 / -0.0535 | -0.1515 / -0.1550 |
+| PPA-guided search candidates — area | 0.8935 / 0.7588 | 0.8671 / 0.7442 | 0.1340 / 0.1077 | 0.1210 / 0.0946 |
+| PPA-guided search candidates — delay | 0.6719 / 0.5311 | 0.7393 / 0.5894 | 0.1728 / 0.1449 | 0.1015 / 0.0848 |
+| PPA-guided search candidates — power | 0.8813 / 0.7381 | 0.8375 / 0.7001 | 0.0950 / 0.0774 | 0.0832 / 0.0639 |
+| REvolution/DeepSeek search cohort B — area | 0.9717 / 0.9186 | 0.9795 / 0.9291 | 0.0125 / -0.0076 | -0.0966 / -0.0901 |
+| REvolution/DeepSeek search cohort B — delay | 0.9513 / 0.8821 | 0.9426 / 0.8749 | 0.0526 / 0.0558 | -0.1692 / -0.1670 |
+| REvolution/DeepSeek search cohort B — power | 0.9747 / 0.9155 | 0.9747 / 0.9180 | -0.0531 / -0.0535 | -0.1515 / -0.1550 |
 
 Unrounded numeric values are in [summary.csv](../results/historical-loss-comparison/summary.csv)
 and [summary.json](../results/historical-loss-comparison/summary.json).
@@ -69,8 +78,8 @@ and takes up to 15. This is a selected cohort, not the full test set.
 
 | Cohort | Cached rows per model | Matched reference rows per model | Selected tasks | Grouped interpretation |
 |---|---:|---:|---:|---|
-| PPA-feedback alternatives (`test_ppa_feedback`) | 1,350 | 1,428 | 15 | Repeated reference records reuse predictions; generally 10–14 usable task groups per metric/clock |
-| VerilogEval-based alternatives (`test_ds_verilog_eval`) | 1,350 | 1,350 | 15 | Constant arrays leave only 2–5 usable task groups per metric/clock |
+| PPA-guided search candidates (`test_ppa_feedback`) | 1,350 | 1,428 | 15 | Repeated reference records reuse predictions; generally 10–14 usable task groups per metric/clock |
+| REvolution/DeepSeek search cohort B (`test_ds_verilog_eval`) | 1,350 | 1,350 | 15 | Constant arrays leave only 2–5 usable task groups per metric/clock |
 | Historical augmentation pool (`test_aug_100`) | 90 | 90 | invalid grouping | Grouped numerical scores withheld |
 
 Usable group counts below sum task/clock groups across six clocks. Parentheses
@@ -79,12 +88,12 @@ conditional coverage, rather than additional independent tasks.
 
 | Cohort / metric | CE usable groups (per-clock range) | CE+NTL usable groups (per-clock range) |
 |---|---:|---:|
-| PPA-feedback alternatives — area | 74 (12–14) | 74 (12–14) |
-| PPA-feedback alternatives — delay | 70 (10–13) | 71 (10–13) |
-| PPA-feedback alternatives — power | 78 (12–14) | 78 (12–14) |
-| VerilogEval-based alternatives — area | 22 (3–4) | 22 (3–4) |
-| VerilogEval-based alternatives — delay | 23 (3–5) | 23 (2–5) |
-| VerilogEval-based alternatives — power | 24 (3–5) | 24 (3–5) |
+| PPA-guided search candidates — area | 74 (12–14) | 74 (12–14) |
+| PPA-guided search candidates — delay | 70 (10–13) | 71 (10–13) |
+| PPA-guided search candidates — power | 78 (12–14) | 78 (12–14) |
+| REvolution/DeepSeek search cohort B — area | 22 (3–4) | 22 (3–4) |
+| REvolution/DeepSeek search cohort B — delay | 23 (3–5) | 23 (2–5) |
+| REvolution/DeepSeek search cohort B — power | 24 (3–5) | 24 (3–5) |
 
 The PPA-feedback match expands one task to 25–30 records per clock by reusing
 predictions against repeated reference entries. These records do not represent
@@ -92,7 +101,7 @@ additional independently predicted candidates. Within-task coefficients can be
 affected by repetition even though groups receive equal macro weight.
 
 The original `n_samples` field counts the **entire reference pool**, including
-unmatched records: 15,985 for PPA-feedback and 45,935 for VerilogEval. It is not
+unmatched records: 15,985 for PPA-feedback and 45,935 for cohort B. It is not
 the evaluated denominator. The public export distinguishes reference rows,
 cache rows, matched rows, usable rows and usable groups. Omitted constant groups
 can differ between CE and CE+NTL. The [coverage/status record](../results/historical-loss-comparison/coverage-status.json)

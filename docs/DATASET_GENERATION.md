@@ -82,14 +82,25 @@ Source recovery was not uniformly an exact-RTL match. The recorded construction 
 | `valid` | 27,150 | validation base |
 | `valid_aug` | 24,772 | validation augmentation |
 | `test` | 810 | Evaluation; `local/test` metadata |
-| `test_deepseek_ref` | 13,173 | Reference-generated alternatives; `local/test_deepseek_ref` metadata |
-| `test_ds_verilog_eval` | 45,923 | VerilogEval-based alternatives; `local/test_ds_verilog_eval` metadata |
+| `test_deepseek_ref` | 13,173 | REvolution/DeepSeek search cohort A; `local/test_deepseek_ref` metadata |
+| `test_ds_verilog_eval` | 45,923 | REvolution/DeepSeek search cohort B; `local/test_ds_verilog_eval` metadata |
 | `test_pluto` | 72 | Evaluation; `local/test_pluto` metadata |
-| `test_ppa_feedback` | 14,206 | PPA-feedback alternatives; `local/test_ppa_feedback` metadata |
+| `test_ppa_feedback` | 14,206 | PPA-guided search candidates; `local/test_ppa_feedback` metadata |
 | `test_realbench` | 516 | Evaluation; `local/test_realbench` metadata |
 | `test_rtl_opt` | 288 | Evaluation; `local/test_rtl_opt` metadata |
 
 The seven evaluation splits total **74,988 rows**; all eleven retained splits total **594,231 rows**. Evaluation records carry `local/test...` source labels. Their original upstream provenance is not established by those labels, so the source mixture above excludes evaluation splits. Split names alone do not establish independence from training or from each other.
+
+The researcher's corrected account identifies `test_deepseek_ref` and
+`test_ds_verilog_eval` as two cohorts from the same REvolution/DeepSeek search
+source. A retained-data comparison confirms shared task families and exact RTL
+strings; they are not independent generation sources. `test_ppa_feedback`
+contains the researcher's historical PPA-guided search candidates collected
+using an earlier trained estimator. Recovered run logs identify a `v6.1.4`
+T5Gemma small proxy named for five epochs; they do not cryptographically bind
+every retained candidate to its weights. The [cohort origin record](../results/v6.3/evaluation-cohort-origins.json)
+adds this clarified attribution without rewriting the historical `local/test...`
+fields or changing the training-source mixture or split counts.
 
 Separately inspected generator references and measured selections identify
 `test_rtl_opt` and `test_pluto` with [RTL-OPT and Pluto](BENCHMARK_REFERENCES.md).
