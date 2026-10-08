@@ -1,0 +1,204 @@
+{
+  "algorithm": "REvolution",
+  "proxy_historical_version": "v6.1.4",
+  "proxy_epochs_from_checkpoint_name": 5,
+  "evidence": "configured and loaded proxy observed in retained runtime log; no cryptographic per-candidate binding",
+  "records": [
+    {
+      "problem_name": "Prob018_mux256to1",
+      "model_name": "gpt-5.4-nano",
+      "total_runtime_seconds": 1284.3845036029816,
+      "total_generations": 20,
+      "total_candidates_generated": 210,
+      "total_llm_api_calls": 420,
+      "accumulated_success_rates": {
+        "syntax": 0.919047619047619,
+        "functionality": 0.8761904761904762,
+        "synthesis_ppa": 0.8571428571428571
+      }
+    },
+    {
+      "problem_name": "Prob021_mux256to1v",
+      "model_name": "gpt-5.4-nano",
+      "total_runtime_seconds": 1391.835910320282,
+      "total_generations": 20,
+      "total_candidates_generated": 210,
+      "total_llm_api_calls": 420,
+      "accumulated_success_rates": {
+        "syntax": 0.9142857142857143,
+        "functionality": 0.8333333333333334,
+        "synthesis_ppa": 0.8
+      }
+    },
+    {
+      "problem_name": "Prob023_vector100r",
+      "model_name": "gpt-5.4-nano",
+      "total_runtime_seconds": 519.5262439250946,
+      "total_generations": 20,
+      "total_candidates_generated": 210,
+      "total_llm_api_calls": 420,
+      "accumulated_success_rates": {
+        "syntax": 0.8476190476190476,
+        "functionality": 0.8095238095238095,
+        "synthesis_ppa": 0.7666666666666667
+      }
+    },
+    {
+      "problem_name": "Prob030_popcount255",
+      "model_name": "gpt-5.4-nano",
+      "total_runtime_seconds": 1217.8735916614532,
+      "total_generations": 20,
+      "total_candidates_generated": 210,
+      "total_llm_api_calls": 419,
+      "accumulated_success_rates": {
+        "syntax": 0.8,
+        "functionality": 0.6238095238095238,
+        "synthesis_ppa": 0.6095238095238096
+      }
+    },
+    {
+      "problem_name": "Prob052_gates100",
+      "model_name": "gpt-5.4-nano",
+      "total_runtime_seconds": 855.503160238266,
+      "total_generations": 20,
+      "total_candidates_generated": 210,
+      "total_llm_api_calls": 420,
+      "accumulated_success_rates": {
+        "syntax": 0.9428571428571428,
+        "functionality": 0.8857142857142857,
+        "synthesis_ppa": 0.819047619047619
+      }
+    },
+    {
+      "problem_name": "Prob055_conditional",
+      "model_name": "gpt-5.4-nano",
+      "total_runtime_seconds": 508.3659119606018,
+      "total_generations": 20,
+      "total_candidates_generated": 210,
+      "total_llm_api_calls": 420,
+      "accumulated_success_rates": {
+        "syntax": 0.9761904761904762,
+        "functionality": 0.9476190476190476,
+        "synthesis_ppa": 0.8761904761904762
+      }
+    },
+    {
+      "problem_name": "Prob068_countbcd",
+      "model_name": "gpt-5.4-nano",
+      "total_runtime_seconds": 662.6002569198608,
+      "total_generations": 20,
+      "total_candidates_generated": 210,
+      "total_llm_api_calls": 420,
+      "accumulated_success_rates": {
+        "syntax": 0.9714285714285714,
+        "functionality": 0.861904761904762,
+        "synthesis_ppa": 0.8380952380952381
+      }
+    },
+    {
+      "problem_name": "Prob080_timer",
+      "model_name": "gpt-5.4-nano",
+      "total_runtime_seconds": 504.54909801483154,
+      "total_generations": 20,
+      "total_candidates_generated": 210,
+      "total_llm_api_calls": 420,
+      "accumulated_success_rates": {
+        "syntax": 0.9952380952380953,
+        "functionality": 0.8809523809523809,
+        "synthesis_ppa": 0.819047619047619
+      }
+    },
+    {
+      "problem_name": "Prob092_gatesv100",
+      "model_name": "gpt-5.4-nano",
+      "total_runtime_seconds": 550.192973613739,
+      "total_generations": 20,
+      "total_candidates_generated": 210,
+      "total_llm_api_calls": 420,
+      "accumulated_success_rates": {
+        "syntax": 0.8904761904761904,
+        "functionality": 0.7,
+        "synthesis_ppa": 0.5761904761904761
+      }
+    },
+    {
+      "problem_name": "Prob097_mux9to1v",
+      "model_name": "gpt-5.4-nano",
+      "total_runtime_seconds": 609.4609320163727,
+      "total_generations": 20,
+      "total_candidates_generated": 210,
+      "total_llm_api_calls": 420,
+      "accumulated_success_rates": {
+        "syntax": 0.9571428571428572,
+        "functionality": 0.861904761904762,
+        "synthesis_ppa": 0.8285714285714286
+      }
+    },
+    {
+      "problem_name": "Prob105_rotate100",
+      "model_name": "gpt-5.4-nano",
+      "total_runtime_seconds": 604.2657265663147,
+      "total_generations": 20,
+      "total_candidates_generated": 210,
+      "total_llm_api_calls": 420,
+      "accumulated_success_rates": {
+        "syntax": 0.9904761904761905,
+        "functionality": 0.9619047619047619,
+        "synthesis_ppa": 0.9
+      }
+    },
+    {
+      "problem_name": "Prob108_rule90",
+      "model_name": "gpt-5.4-nano",
+      "total_runtime_seconds": 608.1231617927551,
+      "total_generations": 20,
+      "total_candidates_generated": 210,
+      "total_llm_api_calls": 420,
+      "accumulated_success_rates": {
+        "syntax": 1.0,
+        "functionality": 0.9333333333333333,
+        "synthesis_ppa": 0.8523809523809524
+      }
+    },
+    {
+      "problem_name": "Prob115_shift18",
+      "model_name": "gpt-5.4-nano",
+      "total_runtime_seconds": 467.11897349357605,
+      "total_generations": 20,
+      "total_candidates_generated": 210,
+      "total_llm_api_calls": 420,
+      "accumulated_success_rates": {
+        "syntax": 0.9761904761904762,
+        "functionality": 0.8476190476190476,
+        "synthesis_ppa": 0.8380952380952381
+      }
+    },
+    {
+      "problem_name": "Prob118_history_shift",
+      "model_name": "gpt-5.4-nano",
+      "total_runtime_seconds": 464.06148624420166,
+      "total_generations": 20,
+      "total_candidates_generated": 210,
+      "total_llm_api_calls": 420,
+      "accumulated_success_rates": {
+        "syntax": 0.9809523809523809,
+        "functionality": 0.9285714285714286,
+        "synthesis_ppa": 0.8476190476190476
+      }
+    },
+    {
+      "problem_name": "Prob123_bugs_addsubz",
+      "model_name": "gpt-5.4-nano",
+      "total_runtime_seconds": 462.7932720184326,
+      "total_generations": 20,
+      "total_candidates_generated": 210,
+      "total_llm_api_calls": 420,
+      "accumulated_success_rates": {
+        "syntax": 0.9809523809523809,
+        "functionality": 0.9809523809523809,
+        "synthesis_ppa": 0.9095238095238095
+      }
+    }
+  ],
+  "no_matched_dcpt_arm_recovered": true
+}

@@ -1,0 +1,26 @@
+{
+  "pipeline": "yosys_openroad",
+  "phases": {
+    "generation": {
+      "calls": 72,
+      "total_seconds": 30383.970189757645,
+      "mean_seconds": 421.9995859688562
+    },
+    "vcs_simulation": {
+      "calls": 690,
+      "total_seconds": 393.59311954665463,
+      "mean_seconds": 0.5704248109371807
+    },
+    "synthesis": {
+      "calls": 654,
+      "total_seconds": 1172.085489727091,
+      "mean_seconds": 1.7921796479007508
+    },
+    "other": {
+      "calls": 690,
+      "total_seconds": 0.837950347806327,
+      "mean_seconds": 0.001214420793922213
+    }
+  },
+  "verified_against_saved_chart": true
+}

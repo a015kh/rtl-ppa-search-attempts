@@ -12,6 +12,13 @@ did not provide effective candidate-selection guidance. This is the stated
 reason for stopping; retained final-model results do not establish its
 performance inside search.
 
+The [historical search experiments](docs/HISTORICAL_SEARCH_EXPERIMENTS.md)
+report 18 paired EvolVE tasks: the earlier model gives worse measured PPA on
+14, ties on three and slightly improves one. REvolution proxy experiments are
+documented separately because a matched DC/PT arm has not been recovered.
+LLM generation dominates the selected recorded timing totals; event-time
+shares are distinguished from end-to-end runtime.
+
 Two retained cohorts come from the same REvolution/DeepSeek search source and
 share candidates. The PPA-guided cohort comes from the researcher's historical
 search using an earlier trained estimator. These origins do not establish

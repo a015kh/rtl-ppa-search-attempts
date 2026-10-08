@@ -1,0 +1,328 @@
+[
+  {
+    "task": "Prob030_popcount255",
+    "pipeline": "trained_model",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 9,
+      "success": 9
+    }
+  },
+  {
+    "task": "Prob030_popcount255",
+    "pipeline": "dc_pt",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 9,
+      "success": 9
+    }
+  },
+  {
+    "task": "Prob082_lfsr32",
+    "pipeline": "trained_model",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 3,
+      "success": 15
+    }
+  },
+  {
+    "task": "Prob082_lfsr32",
+    "pipeline": "dc_pt",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 3,
+      "success": 15
+    }
+  },
+  {
+    "task": "Prob018_mux256to1",
+    "pipeline": "trained_model",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 4,
+      "success": 8,
+      "failed": 6
+    }
+  },
+  {
+    "task": "Prob018_mux256to1",
+    "pipeline": "dc_pt",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 6,
+      "success": 12
+    }
+  },
+  {
+    "task": "Prob021_mux256to1v",
+    "pipeline": "trained_model",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 6,
+      "success": 12
+    }
+  },
+  {
+    "task": "Prob021_mux256to1v",
+    "pipeline": "dc_pt",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 6,
+      "success": 12
+    }
+  },
+  {
+    "task": "Prob023_vector100r",
+    "pipeline": "trained_model",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 3,
+      "success": 15
+    }
+  },
+  {
+    "task": "Prob023_vector100r",
+    "pipeline": "dc_pt",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 3,
+      "success": 15
+    }
+  },
+  {
+    "task": "Prob118_history_shift",
+    "pipeline": "trained_model",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 6,
+      "success": 12
+    }
+  },
+  {
+    "task": "Prob118_history_shift",
+    "pipeline": "dc_pt",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 6,
+      "success": 12
+    }
+  },
+  {
+    "task": "Prob097_mux9to1v",
+    "pipeline": "trained_model",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 3,
+      "success": 15
+    }
+  },
+  {
+    "task": "Prob097_mux9to1v",
+    "pipeline": "dc_pt",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 3,
+      "success": 15
+    }
+  },
+  {
+    "task": "Prob124_rule110",
+    "pipeline": "trained_model",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 4,
+      "success": 14
+    }
+  },
+  {
+    "task": "Prob124_rule110",
+    "pipeline": "dc_pt",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 5,
+      "success": 13
+    }
+  },
+  {
+    "task": "Prob092_gatesv100",
+    "pipeline": "trained_model",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 3,
+      "success": 15
+    }
+  },
+  {
+    "task": "Prob092_gatesv100",
+    "pipeline": "dc_pt",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 3,
+      "success": 15
+    }
+  },
+  {
+    "task": "Prob052_gates100",
+    "pipeline": "trained_model",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "failed": 1,
+      "timing_failed": 5,
+      "success": 12
+    }
+  },
+  {
+    "task": "Prob052_gates100",
+    "pipeline": "dc_pt",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 6,
+      "success": 12
+    }
+  },
+  {
+    "task": "Prob105_rotate100",
+    "pipeline": "trained_model",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 8,
+      "success": 10
+    }
+  },
+  {
+    "task": "Prob105_rotate100",
+    "pipeline": "dc_pt",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 9,
+      "success": 9
+    }
+  },
+  {
+    "task": "Prob153_gshare",
+    "pipeline": "trained_model",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 12,
+      "success": 6
+    }
+  },
+  {
+    "task": "Prob153_gshare",
+    "pipeline": "dc_pt",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 7,
+      "success": 11
+    }
+  },
+  {
+    "task": "Prob115_shift18",
+    "pipeline": "trained_model",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 9,
+      "success": 9
+    }
+  },
+  {
+    "task": "Prob115_shift18",
+    "pipeline": "dc_pt",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 9,
+      "success": 9
+    }
+  },
+  {
+    "task": "Prob055_conditional",
+    "pipeline": "trained_model",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 6,
+      "success": 12
+    }
+  },
+  {
+    "task": "Prob055_conditional",
+    "pipeline": "dc_pt",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 6,
+      "success": 12
+    }
+  },
+  {
+    "task": "Prob123_bugs_addsubz",
+    "pipeline": "trained_model",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 6,
+      "success": 12
+    }
+  },
+  {
+    "task": "Prob123_bugs_addsubz",
+    "pipeline": "dc_pt",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 6,
+      "success": 12
+    }
+  },
+  {
+    "task": "Prob080_timer",
+    "pipeline": "trained_model",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 8,
+      "success": 10
+    }
+  },
+  {
+    "task": "Prob080_timer",
+    "pipeline": "dc_pt",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 7,
+      "success": 11
+    }
+  },
+  {
+    "task": "Prob068_countbcd",
+    "pipeline": "trained_model",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 9,
+      "success": 9
+    }
+  },
+  {
+    "task": "Prob068_countbcd",
+    "pipeline": "dc_pt",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 4,
+      "success": 14
+    }
+  },
+  {
+    "task": "Prob108_rule90",
+    "pipeline": "trained_model",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 6,
+      "success": 12
+    }
+  },
+  {
+    "task": "Prob108_rule90",
+    "pipeline": "dc_pt",
+    "finalist_clock_records": 18,
+    "golden_status_counts": {
+      "timing_failed": 6,
+      "success": 12
+    }
+  }
+]
