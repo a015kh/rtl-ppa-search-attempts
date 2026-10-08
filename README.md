@@ -6,7 +6,11 @@ Read the first-person [project findings](docs/PROJECT_FINDINGS.md) for the resea
 rationale, six clock constraints, regress-lm adaptation, CE/Number Token Loss
 decision and open problems. The main finding is that strong overall correlation
 does not establish useful ordering of alternatives for the same hardware task.
-The **Same-Task RTL Ranking Suite** makes that narrower question explicit.
+The **Same-Task RTL Ranking Suite** makes that narrower question explicit. The researcher
+stopped because historical attempts to guide search with a trained PPA estimator
+did not provide effective candidate-selection guidance. This is the stated
+reason for stopping; retained final-model results do not establish its
+performance inside search.
 
 Two retained cohorts come from the same REvolution/DeepSeek search source and
 share candidates. The PPA-guided cohort comes from the researcher's historical
