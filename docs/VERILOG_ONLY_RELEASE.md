@@ -1,5 +1,7 @@
 # Verilog-only companion dataset
 
+The [reviewed 41-record companion](https://huggingface.co/datasets/a015kh/rtl-ppa-verilog-reviewed-v6.3.0) is now public. The larger unreviewed collection and the PPA dataset remain private.
+
 The companion dataset is intended to show the code mixture used by this work
 without distributing the retained PPA measurements. It is a separate data
 package, not a payload bundled with this source repository. The measured v6.3

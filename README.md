@@ -79,6 +79,9 @@ The population search is derived from [REvolution](https://github.com/kmcho2019/
 
 ## What is included
 
+The [public Verilog-only companion](https://huggingface.co/datasets/a015kh/rtl-ppa-verilog-reviewed-v6.3.0) contains **41 reviewed exact RTL-OPT source files** with their MIT notice and record-scoped provenance. It contains no PPA measurements or model weights and is separate from the private final training corpus.
+
+
 - PPA model training, standalone evaluation and sampled inference.
 - Offline test-data preparation from completed result/report inputs, with [explicit conversion and filtering policies](docs/TEST_DATASET_PREPARATION.md).
 - Dataset assembly from previously measured PPA inputs, with lineage-aware splitting and [recorded source-distribution tables](docs/DATASET_GENERATION.md).
