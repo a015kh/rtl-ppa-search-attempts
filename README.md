@@ -1,5 +1,7 @@
 # RTL PPA and Search: Research Attempts
 
+**Authorship and AI assistance:** I wrote the project code and conducted the experiments. GPT-6.1 organized the final results from retained experiment records and helped prepare the release documentation. Upstream contributions are credited separately.
+
 Research code for predicting RTL power, delay and area (PPA), and using predictions or synthesis measurements to guide RTL optimization. The release includes a maintained training/evaluation workflow, two search implementations, and selected historical loss and ranking experiments.
 
 Read the first-person [project findings](docs/PROJECT_FINDINGS.md) for the research

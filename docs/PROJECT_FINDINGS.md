@@ -1,5 +1,7 @@
 # PPA Prediction for RTL Optimization: Findings and Open Problems
 
+**Authorship and AI assistance:** I wrote the project code and conducted the experiments. GPT-6.1 organized the final results from retained experiment records and helped prepare the release documentation. Upstream contributions are credited separately.
+
 I started this project to make RTL optimization less dependent on expensive synthesis feedback. My goal was to predict power, delay and area (PPA) from Verilog and a clock constraint, then use those predictions to choose promising implementations during search. The practical question was whether a model could distinguish better and worse implementations of the same hardware task quickly enough to help optimization.
 
 My main reason for stopping was practical: the trained PPA estimator did not provide effective guidance toward better implementations in my historical search attempts. I needed reliable ordering among alternatives for the same task. This assessment concerns earlier-model searches; retained final-model evidence remains standalone evaluation.
@@ -165,4 +167,4 @@ For the final model, the remaining end-to-end question requires controlled searc
 
 I stopped because the trained estimator did not provide the effective search guidance I needed in my attempts, and I did not establish a model-guided optimization benefit sufficient to continue the project. They do not isolate the cause of the search outcomes or quantify a final-model search effect. I am closing the project with an unmet demonstrated optimization objective and reusable code and evidence. The full final PPA corpus and model remain private; generated labels contain information tied to commercial synthesis/signoff flows and cell libraries. The public repository provides code, synthetic fixtures and aggregate findings. A separately reviewed Verilog-only companion contains 41 exact RTL-OPT source files with their applicable notice. It is not the training corpus and cannot reproduce the model by itself.
 
-My main lesson is to evaluate the decision the system is intended to support. In this project, that means ordering valid alternatives for the same hardware task under the same conditions, then checking whether those decisions improve measured optimization outcomes. The retained results establish a gap in that chain. They do not establish that learned PPA estimation is inherently ineffective.
+My lesson is to evaluate candidate ordering within the same hardware task and conditions, then verify measured optimization outcomes. These results do not establish that learned PPA estimation is inherently ineffective.
